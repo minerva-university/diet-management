@@ -7,11 +7,12 @@ CREATE TABLE user( -- table for declaring different users and their properties
     name TEXT NOT NULL,
     email TEXT NOT NULL,
     password TEXT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     weight INTEGER NOT NULL,
     height INTEGER NOT NULL,
     age INTEGER NOT NULL,
     activity_level TEXT CHECK(activity_level IN ('sedentary', 'lightly active', 'moderately active', 'very active', 'extra active'))
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 );
 
 CREATE TABLE user_calories( -- table for tracking the calories of the current user (One user -> one number of calories)
