@@ -3,21 +3,19 @@
     <form method="POST" action="">
         {{ form.hidden_tag() }}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Account Information</legend>
-            <h3 class="border-bottom">Username: {{ current_user.username }}</h3 class="border-bottom">
-            <h3 class="border-bottom">Email: {{ current_user.email }}</h3 class="border-bottom">
+            <legend class="border-bottom mb-4">{{ legend }}</legend>
             <div class="form-group">
-                {{ form.username.label(class="form-control-label") }}
+                {{ form.name.label(class="form-control-label") }}
 
-                {% if form.username.errors %}
-                    {{ form.username(class="form-control form-control-lg is-invalid") }}
+                {% if form.name.errors %}
+                    {{ form.name(class="form-control form-control-lg is-invalid") }}
                     <div class="invalid-feedback">
-                        {% for error in form.username.errors %}
+                        {% for error in form.name.errors %}
                             <span>{{ error }}</span>
                         {% endfor %}
                     </div>
                 {% else %}
-                    {{ form.username(class="form-control form-control-lg") }}
+                    {{ form.name(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
             <div class="form-group">
@@ -73,21 +71,55 @@
                 {% endif %}
             </div>
             <div class="form-group">
-                {{ form.goal.label(class="form-control-label") }}
-                {% if form.goal.errors %}
-                    {{ form.goal(class="form-control form-control-lg is-invalid") }}
+                {{ form.activity_level.label(class="form-control-label") }}
+                {% if form.activity_level.errors %}
+                    {{ form.activity_level(class="form-control form-control-lg is-invalid") }}
                     <div class="invalid-feedback">
-                        {% for error in form.goal.errors %}
+                        {% for error in form.activity_level.errors %}
                             <span>{{ error }}</span>
                         {% endfor %}
                     </div>
                 {% else %}
-                    {{ form.goal(class="form-control form-control-lg") }}
+                    {{ form.activity_level(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.specific_diet.label(class="form-control-label") }}
+                {% if form.specific_diet.errors %}
+                    {{ form.specific_diet(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.specific_diet.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.specific_diet(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
         </fieldset>
         <div class="form-group">
             {{ form.submit(class="btn btn-outline-info") }}
+            &nbsp;
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
         </div>
     </form>
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Account?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form action="{{ url_for('delete_account', user_id=current_user.id) }}" method="POST">
+                <input class="btn btn-danger" type="submit" value="Delete">
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
 {% endblock content %}

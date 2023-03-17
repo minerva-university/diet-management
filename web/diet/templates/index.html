@@ -1,10 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <title>CS162 Final Project</title>
-</head>
-<body>
-    <p>Hello World!</p>
-</body>
-</html>
+{% extends 'layout.html' %}
+{% block content %}
+  {% if not current_user.is_authenticated %}
+  <div style="text-align: center;">
+    <h1>Welcome!</h1>
+    <p>To use the diet management app, please:</p>
+    <a class="btn btn-primary" href="{{ url_for('register') }}">Sign Up</a> or <a class="btn btn-primary" href="{{ url_for('login') }}">Login</a>
+  </div>
+  {% else %}
+    <div style="text-align: center;">
+        <h1>Welcome, {{ current_user.name }}!</h1>
+        <p>Coming soon!</p>
+    </div>
+  {% endif %}
+{% endblock content %}
