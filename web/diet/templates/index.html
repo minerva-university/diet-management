@@ -1,15 +1,55 @@
-{% extends 'layout.html' %}
+{% extends "layout.html" %}
+
 {% block content %}
-  {% if not current_user.is_authenticated %}
-  <div style="text-align: center;">
-    <h1>Welcome!</h1>
-    <p>To use the diet management app, please:</p>
-    <a class="btn btn-primary" href="{{ url_for('register') }}">Sign Up</a> or <a class="btn btn-primary" href="{{ url_for('login') }}">Login</a>
-  </div>
-  {% else %}
-    <div style="text-align: center;">
-        <h1>Welcome, {{ current_user.name }}!</h1>
-        <p>Coming soon!</p>
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome to Diet Management</h1>
+        <p class="lead">Your personal guide to a healthier lifestyle.</p>
+        <hr class="my-4">
+        <p>Use our diet management system to calculate your daily caloric needs, get personalized meal plans, and track your progress towards your health goals.</p>
+        {% if not current_user.is_authenticated %}
+            <p class="lead">
+                <a class="btn btn-primary btn-lg" href="{{ url_for('register') }}" role="button">Register</a>
+                <a class="btn btn-secondary btn-lg" href="{{ url_for('login') }}" role="button">Login</a>
+            </p>
+        {% endif %}
     </div>
-  {% endif %}
-{% endblock content %}
+
+    {% if current_user.is_authenticated %}
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <img class="card-img-top" src="{{ url_for('static', filename='images/calories.jpg') }}" alt="Calculate Calories">
+                    <div class="card-body">
+                        <h5 class="card-title">Calculate Calories</h5>
+                        <p class="card-text">Estimate your daily caloric needs based on your age, weight, height, and activity level.</p>
+                        <a href="{{ url_for('get_calories') }}" class="btn btn-primary">Calculate Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img class="card-img-top" src="{{ url_for('static', filename='images/meals.jpg') }}" alt="Get Meals">
+                    <div class="card-body">
+                        <h5 class="card-title">Get Meals</h5>
+                        <p class="card-text">Receive personalized meal recommendations based on your caloric needs and dietary preferences.</p>
+                        <a href="{{ url_for('get_meals') }}" class="btn btn-primary">Get Meals</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img class="card-img-top" src="{{ url_for('static', filename='images/show_meals.jpg') }}" alt="Show Meals">
+                    <div class="card-body">
+                        <h5 class="card-title">Show Meals</h5>
+                        <p class="card-text">View the meals selected for you and monitor your daily caloric intake.</p>
+                        <a href="{{ url_for('show_meals') }}" class="btn btn-primary">Show Meals</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <strong>Note:</strong> Please register or log in to access the full features of Diet Management.
+        </div>
+    {% endif %}
+{% endblock %}

@@ -34,13 +34,16 @@ class InitializeAccountForm(FlaskForm):
 class UpdateAccountForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(min=2, max=20)])
     email = EmailField('Email', validators=[DataRequired()])
-    height = FloatField('Height (m)', validators=[DataRequired(), NumberRange(min=0.0, max=3.0, message='Height must be between 0.0 and 3.0')])
+    height = FloatField('Height (cm)', validators=[DataRequired(), NumberRange(min=0.0, max=300, message='Height must be between 0.0 and 300')])
     weight = FloatField('Weight (kg)', validators=[DataRequired(), NumberRange(min=0.0, max=300.0, message='Weight must be between 0.0 and 300.0')])
     age = IntegerField('Age', validators=[DataRequired(), NumberRange(min=0, max=150, message='Age must be between 0 and 150')])
-    activity_level_choices = [('', 'Select an option'), ('Sedentary', 'Sedentary'), ('Lightly Active', 'Lightly Active'), ('Moderately Active', 'Moderately Active'), ('Very Active', 'Very Active'), ('Extra Active', 'Extra Active')]
-    activity_level = SelectField('Activity level', choices=activity_level_choices, validators=[DataRequired()])
-    specific_diet_choices = [('', 'Select your diet type'), ('None', 'None'), ('Halal', 'Halal'), ('Kosher', 'Kosher'), ('Vegetarian', 'Vegetarian'), ('Vegan', 'Vegan'), ('Keto', 'Keto')]
-    specific_diet = SelectField('Specific diet', choices=specific_diet_choices, validators=[DataRequired()])
+    goal_options = [('', 'Select an option'), ('Lose Weight', 'Lose Weight'), ('Maintain Weight', 'Maintain Weight'), ('Gain Weight', 'Gain Weight')]
+    goal = SelectField('Goal', choices=goal_options, validators=[DataRequired()])
+    activity_level_options = [('', 'Select an option'), ('Sedentary', 'Sedentary'), ('Lightly Active', 'Lightly Active'),
+                              ('Moderately Active', 'Moderately Active'), ('Very Active', 'Very Active'), ('Extra Active', 'Extra Active')]
+    activity_level = SelectField('Activity Level', choices=activity_level_options, validators=[DataRequired()])
+    gender_options = [('', 'Select an option'), ('Male', 'Male'), ('Female', 'Female')]
+    gender = SelectField('Gender', choices=gender_options, validators=[DataRequired()])
     submit = SubmitField('Submit')
     
         
@@ -49,3 +52,17 @@ class UpdateAccountForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('That email is taken. Please choose a different one.')
+
+class CalculateCalories(FlaskForm):
+    height = FloatField('Height (cm)', validators=[DataRequired(), NumberRange(min=0.0, max=300, message='Height must be between 0.0 and 300')])
+    weight = FloatField('Weight (kg)', validators=[DataRequired(), NumberRange(min=0.0, max=300.0, message='Weight must be between 0.0 and 300.0')])
+    age = IntegerField('Age', validators=[DataRequired(), NumberRange(min=0, max=150, message='Age must be between 0 and 150')])
+    goal_options = [('', 'Select an option'), ('Lose Weight', 'Lose Weight'), ('Maintain Weight', 'Maintain Weight'), ('Gain Weight', 'Gain Weight')]
+    goal = SelectField('Goal', choices=goal_options, validators=[DataRequired()])
+    activity_level_options = [('', 'Select an option'), ('Sedentary', 'Sedentary'), ('Lightly Active', 'Lightly Active'),
+                              ('Moderately Active', 'Moderately Active'), ('Very Active', 'Very Active'), ('Extra Active', 'Extra Active')]
+    activity_level = SelectField('Activity Level', choices=activity_level_options, validators=[DataRequired()])
+    gender_options = [('', 'Select an option'), ('Male', 'Male'), ('Female', 'Female')]
+    gender = SelectField('Gender', choices=gender_options, validators=[DataRequired()])
+    submit = SubmitField('Submit')
+

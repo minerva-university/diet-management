@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h2>Get Calories</h2>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Welcome, {{ current_user.username }}</h5>
+            <p class="card-text">Gender: {{ current_user.gender }}</p>
+            <p class="card-text">Weight: {{ current_user.weight }} kg</p>
+            <p class="card-text">Height: {{ current_user.height }} cm</p>
+            <p class="card-text">Age: {{ current_user.age }} years</p>
+            <p class="card-text">Activity Level: {{ current_user.activity_level }}</p>
+            <p class="card-text">Goal: {{ current_user.goal }}</p>
+            <hr>
+            <h5 class="card-title">Recommended Daily Caloric Intake:</h5>
+            <p class="card-text">Your recommended daily caloric intake is <strong>{{ calories }} kcal</strong>.</p>
+            <p class="card-text">This is the recommended daily caloric intake based on your personal information and fitness goal.</p>
+            <!-- Added button directing to get_meals -->
+            <a class="btn btn-primary" href="{{ url_for('get_meals') }}">Get Meals recommendations</a>
+        </div>
+    </div>
+{% endblock %}

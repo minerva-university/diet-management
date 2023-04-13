@@ -96,6 +96,32 @@
                     {{ form.specific_diet(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
+            <div class="form-group">
+                {{ form.activity_level.label(class="form-control-label") }}
+                {% if form.activity_level.errors %}
+                    {{ form.activity_level(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.activity_level.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.activity_level(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.gender.label(class="form-control-label") }}
+                {% if form.gender.errors %}
+                    {{ form.gender(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.gender.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.gender(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
         </fieldset>
         <div class="form-group">
             {{ form.submit(class="btn btn-outline-info") }}
