@@ -3,8 +3,6 @@ from diet import app, db, bcrypt
 from diet.forms import RegistrationForm, LoginForm, UpdateAccountForm, CalculateCalories
 from diet.models import User, UserCalories
 from flask_login import login_user, current_user, logout_user, login_required
-
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -56,7 +54,7 @@ def account():
         current_user.age = form.age.data
         current_user.goal = form.goal.data
         current_user.activity_level = form.activity_level.data
-        current_user.gender = form.activity_level.data
+        current_user.gender = form.gender.data
         db.session.commit()
         flash('Your account has been updated!', 'success')
         return redirect(url_for('account'))
