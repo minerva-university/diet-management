@@ -101,6 +101,7 @@ class UserCurrentDietMeals(db.Model):
     meal_id = db.Column(db.Integer, db.ForeignKey('meals.id'), nullable=False)
     created_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
     updated_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
+    serving_size = db.Column(db.Integer, nullable=False)
     user_current_diet = db.relationship('UserCurrentDiet', backref='user_current_diet_meals')
     meal = db.relationship('Meals', backref='user_current_diet_meals')
 
