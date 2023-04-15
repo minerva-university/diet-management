@@ -60,8 +60,7 @@ Start the server by running:
      export FLASK_ENV=development
      export FLASK_APP=web
      python3 -m flask run
-     cd web
-     python3 insert_meals.py
+     python3 run.py
 
 ## Unit Tests
 To run the unit tests use the following commands:
