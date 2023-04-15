@@ -1,4 +1,4 @@
-from diet import app
+from web import app
 
 
 

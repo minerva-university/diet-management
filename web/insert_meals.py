@@ -1,5 +1,5 @@
-from diet import db
-from diet.models import Meals, MealsLabel
+from . import db
+from models import Meals, MealsLabel
 
 # Your models here (Meals, MealsPhotos, MealsLabel)
 
