@@ -1,31 +1,23 @@
+
 {% extends "layout.html" %}
 
 {% block content %}
+<link rel="stylesheet" href="{{url_for('static', filename='show_meals.css')}}">
     <h2 class="mb-4">Your Meals</h2>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Meal Name</th>
-                <th scope="col">Calories</th>
-                <th scope="col">Serving Size</th>
-                <th scope="col">Adjusted Serving</th>
-                <th scope="col">Recipe</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for meal, serving_factor in zip(meals, servings) %}
-                <tr>
-                    <th scope="row">{{ loop.index }}</th>
-                    <td>{{ meal.name }}</td>
-                    <td>{{ meal.calories }}</td>
-                    <td>{{ meal.serving_size }}</td>
-                    <td>{{ round(meal.serving_size * serving_factor, 1) }}</td>
-                    <td>{{ meal.recipe }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="row">
+        {% for label, meal, serving_factor in zip( labels, meals, servings) %}
+            <div class="column">
+                <div class="card">
+                        <h4 class="card-title">{{label.label}}</h4>
+                        <h5 class="card-title">{{ meal.name }}</h5>
+                        <p class="card-text">Calories: {{ meal.calories }}</p>
+                        <p class="card-text">Serving Size: {{ meal.serving_size }}</p>
+                        <p class="card-text">Adjusted Serving: {{ round(meal.serving_size * serving_factor, 1) }}</p>
+                        <p class="card-text">Recipe: {{ meal.recipe }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
     <h3>Total Diet Calories: {{ round(diet_calories.calories) }}</h3>
     <!-- Added button to generate another diet directing to get_meals -->
     <a class="btn btn-primary" href="{{ url_for('get_meals') }}">Generate Another Diet</a>
