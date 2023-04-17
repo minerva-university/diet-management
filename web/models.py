@@ -1,4 +1,8 @@
+<<<<<<< HEAD:web/diet/models.py
 from diet import db, login_manager, app
+=======
+from . import db, login_manager
+>>>>>>> 10856946b9278ee5d41c6fb99c9e29e9818c923f:web/models.py
 from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 

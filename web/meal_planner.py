@@ -1,4 +1,4 @@
-from diet.models import Meals, MealsLabel, UserCalories
+from web.models import Meals, MealsLabel, UserCalories
 import random  # Import the random module
 
 def choose_meals_for_user(user_id):
