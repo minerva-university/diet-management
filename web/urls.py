@@ -2,15 +2,9 @@ import secrets
 import os
 from PIL import Image
 from flask import render_template, request, redirect, url_for, flash
-<<<<<<< HEAD:web/diet/urls.py
-from diet import app, db, bcrypt, mail
-from diet.forms import RegistrationForm, LoginForm, UpdateAccountForm, CalculateCalories, RequestResetForm, ResetPasswordForm
-from diet.models import User, UserCalories, UserCurrentDiet, UserCurrentDietMeals, Meals, MealsPhotos, MealsLabel, DietCalories
-=======
-from web import app, db, bcrypt
-from web.forms import RegistrationForm, LoginForm, UpdateAccountForm, CalculateCalories
+from web import app, db, bcrypt, mail
+from web.forms import RegistrationForm, LoginForm, UpdateAccountForm, CalculateCalories, RequestResetForm, ResetPasswordForm
 from web.models import User, UserCalories, UserCurrentDiet, UserCurrentDietMeals, Meals, MealsPhotos, MealsLabel, DietCalories
->>>>>>> 10856946b9278ee5d41c6fb99c9e29e9818c923f:web/urls.py
 from flask_login import login_user, current_user, logout_user, login_required
 from web.meal_planner import choose_meals_for_user
 from functools import wraps
