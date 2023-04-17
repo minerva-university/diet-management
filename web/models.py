@@ -1,27 +1,15 @@
-from diet import db, login_manager
+from . import db, login_manager
 from flask_login import UserMixin
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# class User(db.Model, UserMixin):
-#     id = db.Column(db.Integer, primary_key=True)
-#     username = db.Column(db.String(50), unique=True, nullable=False)
-#     email = db.Column(db.String(200), unique=True, nullable=False)
-#     password = db.Column(db.String(200), nullable=False)
-#     height = db.Column(db.Numeric)
-#     weight = db.Column(db.Numeric)
-#     age = db.Column(db.Numeric)
-#     goal = db.Column(db.String(500))
-
-#     def __repr__(self):
-#         return f"User('{self.username}', '{self.email}')"
     
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.Text, nullable=False)
+    username = db.Column(db.Text, nullable=False)
     email = db.Column(db.Text, nullable=False)
     password = db.Column(db.Text, nullable=False)
     weight = db.Column(db.Integer, nullable=True)
@@ -33,9 +21,14 @@ class User(db.Model):
     # activity_level = db.Column(db.Text, nullable=False, checkin=('sedentary', 'lightly active', 'moderately active', 'very active', 'extra active'))
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
+    is_active = db.Column(db.Boolean, default=True, nullable=False)
 
+    def get_id(self):
+        # return user id as unicode
+        return str(self.id)
+    
     def __repr__(self):
-        return f"User('{self.name}', '{self.email}')"
+        return f"User('{self.username}', '{self.email}')"
 
 class UserCalories(db.Model):
     __tablename__ = 'user_calories'
@@ -54,7 +47,7 @@ class UserHistory(db.Model):
     height = db.Column(db.Integer, nullable=True)
     age = db.Column(db.Integer, nullable=True)
     activity_level = db.Column(db.Enum('Sedentary', 'Lightly Active', 'Moderately Active', 'Very Active', 'Extra Active'), nullable=True)
-    gender = db.Column(db.Enum('Male', 'Female'), nullable=True
+    gender = db.Column(db.Enum('Male', 'Female'), nullable=True)
     goal = db.Column(db.Enum('Lose Weight', 'Gain Weight', 'Maintain Weight'), nullable=True)
     created_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
     user = db.relationship('User', backref='user_history')
@@ -108,6 +101,7 @@ class UserCurrentDietMeals(db.Model):
     meal_id = db.Column(db.Integer, db.ForeignKey('meals.id'), nullable=False)
     created_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
     updated_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
+    serving_size = db.Column(db.Integer, nullable=False)
     user_current_diet = db.relationship('UserCurrentDiet', backref='user_current_diet_meals')
     meal = db.relationship('Meals', backref='user_current_diet_meals')
 
