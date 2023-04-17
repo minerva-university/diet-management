@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, EmailField, PasswordField, SubmitField, IntegerField, FloatField, SelectField
 from wtforms.validators import DataRequired, Length, EqualTo, ValidationError, NumberRange
 from diet.models import User
@@ -29,6 +30,7 @@ class LoginForm(FlaskForm):
 class UpdateAccountForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
     email = EmailField('Email', validators=[DataRequired()])
+    picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
     height = FloatField('Height (cm)', validators=[DataRequired(), NumberRange(min=0.0, max=300, message='Height must be between 0.0 and 300')])
     weight = FloatField('Weight (kg)', validators=[DataRequired(), NumberRange(min=0.0, max=300.0, message='Weight must be between 0.0 and 300.0')])
     age = IntegerField('Age', validators=[DataRequired(), NumberRange(min=0, max=150, message='Age must be between 0 and 150')])
@@ -39,7 +41,7 @@ class UpdateAccountForm(FlaskForm):
     activity_level = SelectField('Activity Level', choices=activity_level_options, validators=[DataRequired()])
     gender_options = [('', 'Select an option'), ('Male', 'Male'), ('Female', 'Female')]
     gender = SelectField('Gender', choices=gender_options, validators=[DataRequired()])
-    submit = SubmitField('Submit')
+    submit = SubmitField('Update')
 
     def validate_username(self, username):
         if username.data != current_user.username:
@@ -65,3 +67,17 @@ class CalculateCalories(FlaskForm):
     gender_options = [('', 'Select an option'), ('Male', 'Male'), ('Female', 'Female')]
     gender = SelectField('Gender', choices=gender_options, validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+class RequestResetForm(FlaskForm):
+    email = EmailField('Email', validators=[DataRequired()])
+    submit = SubmitField('Request Password Reset')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user is None:
+            raise ValidationError('There is no account with that email. You must register first.')
+        
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Reset Password')

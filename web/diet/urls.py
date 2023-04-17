@@ -1,10 +1,14 @@
+import secrets
+import os
+from PIL import Image
 from flask import render_template, request, redirect, url_for, flash
-from diet import app, db, bcrypt
-from diet.forms import RegistrationForm, LoginForm, UpdateAccountForm, CalculateCalories
+from diet import app, db, bcrypt, mail
+from diet.forms import RegistrationForm, LoginForm, UpdateAccountForm, CalculateCalories, RequestResetForm, ResetPasswordForm
 from diet.models import User, UserCalories, UserCurrentDiet, UserCurrentDietMeals, Meals, MealsPhotos, MealsLabel, DietCalories
 from flask_login import login_user, current_user, logout_user, login_required
 from diet.meal_planner import choose_meals_for_user
 from functools import wraps
+from flask_mail import Message
 
 def account_complete(f):
     @wraps(f)
@@ -12,7 +16,7 @@ def account_complete(f):
         if current_user.is_authenticated:
             if not (current_user.height and current_user.weight and current_user.age and current_user.goal and current_user.activity_level and current_user.gender):
                 flash('Please complete your account details.', 'warning')
-                return redirect(url_for('account'))
+                return redirect(url_for('finish_account'))
         return f(*args, **kwargs)
     return decorated_function
 
@@ -44,24 +48,62 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
+            # check if the account is not complete and prompt them to finish it
+            if not (current_user.height and current_user.weight and current_user.age and current_user.goal and current_user.activity_level and current_user.gender):
+                flash('Please complete your account details.', 'warning')
+                return redirect(url_for('finish_account'))
+            
             next_page = request.args.get('next')
             if next_page:
                 return redirect(next_page)
             else:
+                flash(f'You have been logged in!', 'success')
                 return redirect(url_for('index'))
-            # flash(f'You have been logged in!', 'success')
         else:
             flash(f'Login Unsuccessful. Please check email and password', 'danger')
 
     return render_template('login.html', title='Login', form=form)
 
+# finish setting up the account
+@app.route('/finish_account', methods=['GET', 'POST'])
+@login_required
+def finish_account():
+    form = CalculateCalories()
+    if form.validate_on_submit():
+        current_user.height = form.height.data
+        current_user.weight = form.weight.data
+        current_user.age = form.age.data
+        current_user.goal = form.goal.data
+        current_user.activity_level = form.activity_level.data
+        current_user.gender = form.gender.data
+        db.session.commit()
+        flash('Your account has been initialized!', 'success')
+        return redirect(url_for('get_calories'))
+    return render_template('finish_account.html', title='Complete Account Details', form=form)
+
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/images', picture_fn)
+    output_size = (125, 125)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+    return picture_fn
+
+
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
+    image_file = url_for('static', filename='images/' + current_user.image_file)
     form = UpdateAccountForm()
     if form.validate_on_submit():
         current_user.username = form.username.data
         current_user.email = form.email.data
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
         current_user.height = form.height.data
         current_user.weight = form.weight.data
         current_user.age = form.age.data
@@ -80,13 +122,19 @@ def account():
         if current_user.goal: form.goal.data = current_user.goal
         if current_user.activity_level: form.activity_level.data = current_user.activity_level
         if current_user.gender: form.gender.data = current_user.gender
-    return render_template('account.html', title='Account', form=form)
+    return render_template('account.html', title='Account', form=form, image_file=image_file)
 
+# separated so it can be tested easily with unittest
+def get_calories_info(current_user):
+    """
+    Calculates the calories needed for the user based on their activity level and goal
 
-@app.route('/get_calories', methods=['GET'])
-@login_required
-@account_complete
-def get_calories():
+    Parameters:
+        current_user (User): The user object
+    
+    Returns:
+        calories (int): The number of calories needed for the user
+    """
     if current_user.gender == 'Male':
         BMR = 66.47 + (13.75 * current_user.weight) + (5.003 * current_user.height) - (6.755 * current_user.age)
     if current_user.gender == 'Female':
@@ -109,7 +157,16 @@ def get_calories():
         calories = AMR
     elif current_user.goal == 'Gain Weight':
         calories = AMR + 500
+    
     calories = round(calories)
+    return calories
+
+
+@app.route('/get_calories', methods=['GET'])
+@login_required
+@account_complete
+def get_calories():
+    calories = get_calories_info(current_user)
     user_calories = UserCalories(calories=calories, user_id=current_user.id)
     db.session.add(user_calories)
     db.session.commit()
@@ -179,3 +236,43 @@ def show_meals():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+def send_reset_email(user):
+    token = user.get_reset_token()
+    msg = Message('Password Reset Request', sender = "mealmindy@proton.me", recipients = [user.email])
+
+    msg.body = f"To reset your password, visit the following link : {url_for('reset_token', token=token, _external=True)} If you did not make this request then simply ignore this email and no changes will be made."
+
+    mail.send(msg)
+
+@app.route('/reset_password', methods=['GET', 'POST'])
+def reset_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        send_reset_email(user)
+        flash('An email has been sent with instructions to reset your password.', 'info')
+        return redirect(url_for('login'))
+    return render_template('reset_request.html', title='Reset Password', form=form)
+
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_token(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    user = User.verify_reset_token(token)
+    if user is None:
+        flash('That is an invalid or expired token', 'warning')
+        return redirect(url_for('reset_request'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.password = hashed_password
+        db.session.commit()
+        flash('Your password has been updated! You are now able to log in', 'success')
+        return redirect(url_for('login'))
+    return render_template('reset_token.html', title='Reset Password', form=form)
+
+

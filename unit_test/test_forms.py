@@ -1,5 +1,5 @@
 import unittest
-from web.diet.forms import RegistrationForm, LoginForm, UpdateAccountForm
+from web.diet.forms import RegistrationForm, LoginForm, UpdateAccountForm, CalculateCalories
 
 class TestForms(unittest.TestCase):
     def test_registration_form(self):
@@ -9,7 +9,3 @@ class TestForms(unittest.TestCase):
     def test_login_form(self):
         form = LoginForm(email='john@doe.com', password='password')
         self.assertTrue(form.validate())
-
-    # def test_update_account_form(self):
-        # form = UpdateAccountForm(name='John Doe',
-
