@@ -1,9 +1,9 @@
 from flask import render_template, request, redirect, url_for, flash
-from diet import app, db, bcrypt
-from diet.forms import RegistrationForm, LoginForm, UpdateAccountForm, CalculateCalories
-from diet.models import User, UserCalories, UserCurrentDiet, UserCurrentDietMeals, Meals, MealsPhotos, MealsLabel, DietCalories
+from web import app, db, bcrypt
+from web.forms import RegistrationForm, LoginForm, UpdateAccountForm, CalculateCalories
+from web.models import User, UserCalories, UserCurrentDiet, UserCurrentDietMeals, Meals, MealsPhotos, MealsLabel, DietCalories
 from flask_login import login_user, current_user, logout_user, login_required
-from diet.meal_planner import choose_meals_for_user
+from web.meal_planner import choose_meals_for_user
 from functools import wraps
 
 def account_complete(f):
