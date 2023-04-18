@@ -66,16 +66,9 @@ body {
   width: 370px;
   margin-left: 45px;
 }
-
-/*
-.card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+.navbar-brand {
+  color: #f26f10 !important;
 }
-
-.card-title {
-  font-weight: bold;
+.navbar-text {
+  color: #f26f10 !important;
 }
-.navbar {
-  background-color: blue;
-}
-*/
