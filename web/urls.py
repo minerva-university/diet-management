@@ -1,10 +1,11 @@
+import datetime
 import secrets
 import os
 from PIL import Image
 from flask import render_template, request, redirect, url_for, flash
 from web import app, db, bcrypt, mail
-from web.forms import RegistrationForm, LoginForm, UpdateAccountForm, CalculateCalories, RequestResetForm, ResetPasswordForm
-from web.models import User, UserCalories, UserCurrentDiet, UserCurrentDietMeals, Meals, MealsPhotos, MealsLabel, DietCalories
+from web.forms import RegistrationForm, LoginForm, UpdateAccountForm, CalculateCalories, RequestResetForm, ResetPasswordForm, BMITimeFilterForm, CaloriesTimeFilterForm
+from web.models import User, UserCalories, UserCurrentDiet, UserCurrentDietMeals, Meals, MealsPhotos, MealsLabel, DietCalories, UserBMIOverTime, UserCaloriesOverTime
 from flask_login import login_user, current_user, logout_user, login_required
 from web.meal_planner import choose_meals_for_user
 from functools import wraps
@@ -32,12 +33,12 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        user = User(name=form.name.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
-        flash(f'Account created for {form.username.data}!', 'success')
+        flash(f'Account created for {form.name.data}!', 'success')
         return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form)
+    return render_template('register.html', title='Register', form=form, legend='Sign Up')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -62,10 +63,16 @@ def login():
         else:
             flash(f'Login Unsuccessful. Please check email and password', 'danger')
 
-    return render_template('login.html', title='Login', form=form)
+    return render_template('login.html', title='Login', form=form, legend='Log In')
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 # finish setting up the account
-@app.route('/finish_account', methods=['GET', 'POST'])
+@app.route('/finish-account', methods=['GET', 'POST'])
 @login_required
 def finish_account():
     form = CalculateCalories()
@@ -76,6 +83,12 @@ def finish_account():
         current_user.goal = form.goal.data
         current_user.activity_level = form.activity_level.data
         current_user.gender = form.gender.data
+
+        # populate the UserBMIOverTime table
+        bmi = current_user.calculate_bmi()
+        bmi_over_time = UserBMIOverTime(user_id=current_user.id, bmi=bmi)
+        db.session.add(bmi_over_time)
+
         db.session.commit()
         flash('Your account has been initialized!', 'success')
         return redirect(url_for('get_calories'))
@@ -99,22 +112,34 @@ def account():
     image_file = url_for('static', filename='images/' + current_user.image_file)
     form = UpdateAccountForm()
     if form.validate_on_submit():
-        current_user.username = form.username.data
+        current_user.name = form.name.data
         current_user.email = form.email.data
         if form.picture.data:
             picture_file = save_picture(form.picture.data)
             current_user.image_file = picture_file
+
+        bmi_changed = False
+        # add to the UserBMIOverTime table if the user has updated their height or weight
+        if current_user.height != form.height.data or current_user.weight != form.weight.data:
+            bmi_changed = True
+
         current_user.height = form.height.data
         current_user.weight = form.weight.data
         current_user.age = form.age.data
         current_user.goal = form.goal.data
         current_user.activity_level = form.activity_level.data
         current_user.gender = form.gender.data
+
+        if bmi_changed:
+            bmi = current_user.get_bmi
+            bmi_over_time = UserBMIOverTime(user_id=current_user.id, bmi=bmi)
+            db.session.add(bmi_over_time)
+
         db.session.commit()
         flash('Your account has been updated!', 'success')
         return redirect(url_for('get_calories'))
     elif request.method == 'GET':
-        form.username.data = current_user.username
+        form.name.data = current_user.name
         form.email.data = current_user.email
         if current_user.height: form.height.data = round(current_user.height, 2)
         if current_user.weight: form.weight.data = round(current_user.weight, 2)
@@ -125,7 +150,7 @@ def account():
     return render_template('account.html', title='Account', form=form, image_file=image_file)
 
 # separated so it can be tested easily with unittest
-def get_calories_info(current_user):
+def calculate_calories(current_user):
     """
     Calculates the calories needed for the user based on their activity level and goal
 
@@ -162,18 +187,18 @@ def get_calories_info(current_user):
     return calories
 
 
-@app.route('/get_calories', methods=['GET'])
+@app.route('/get-calories', methods=['GET'])
 @login_required
 @account_complete
 def get_calories():
-    calories = get_calories_info(current_user)
+    calories = calculate_calories(current_user)
     user_calories = UserCalories(calories=calories, user_id=current_user.id)
     db.session.add(user_calories)
     db.session.commit()
     return render_template('get_calories.html', title='Get Calories', current_user=current_user, calories=calories)
     
     
-@app.route('/get_meals', methods=['GET'])
+@app.route('/get-meals', methods=['GET'])
 @login_required
 @account_complete
 def get_meals():
@@ -203,12 +228,12 @@ def get_meals():
     db.session.commit()
     return redirect(url_for('show_meals'))
 
-@app.route('/show_meals', methods=['GET'])
+@app.route('/show-meals', methods=['GET'])
 @login_required
 @account_complete
 def show_meals():
     if UserCurrentDiet.query.filter_by(user_id=current_user.id).first():
-        print("I am there")
+        # print("I am there")
         user_current_diet = UserCurrentDiet.query.filter_by(user_id=current_user.id).first()
         user_current_meals = UserCurrentDietMeals.query.filter_by(user_current_diet_id=user_current_diet.id).all()
         meals = []
@@ -219,7 +244,7 @@ def show_meals():
             servings.append(serving_size)
             meals.append(meal)
         diet_calories = DietCalories.query.filter_by(user_current_diet_id=user_current_diet.id).first()
-        print(diet_calories, meals)
+        # print(diet_calories, meals)
         return render_template('show_meals.html',
                                title='Get Meals',
                                current_user=current_user,
@@ -231,11 +256,97 @@ def show_meals():
     else:
         return redirect(url_for('get_meals'))
 
-@app.route('/logout')
+@app.route('/save-meal', methods=['GET', 'POST'])
 @login_required
-def logout():
-    logout_user()
+@account_complete
+def save_calories():
+    user_current_diet = UserCurrentDiet.query.filter_by(user_id=current_user.id).first()
+    calories = DietCalories.query.filter_by(user_current_diet_id=user_current_diet.id).first()
+
+    # populate the user calories over time table to track and then later plot it over time
+    user_calories_over_time = UserCaloriesOverTime(calories=calories.calories, user_id=current_user.id)
+    db.session.add(user_calories_over_time)
+    db.session.commit()
+    flash('You chose a great meal plan for today!', 'success')
     return redirect(url_for('index'))
+
+@app.route('/show-calories', methods=['GET', 'POST'])
+@login_required
+@account_complete
+def show_calories(time_frame=None):
+    """ 
+    Use the results of the past 1 week for the default visualization, 
+    but also show the dropdown form to allow the user to select a different time range. 
+    This has values for 1 week, 2 weeks, 3 weeks, and 1 month
+    """
+    form = CaloriesTimeFilterForm()
+    if form.validate_on_submit():
+        time_frame = form.time.data
+    if time_frame is None:
+        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).order_by(UserCaloriesOverTime.id.desc()).limit(7).all()
+        time_frame = '1 Week'
+    elif time_frame == '1 Week':
+        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).order_by(UserCaloriesOverTime.id.desc()).limit(7).all()
+    elif time_frame == '2 Weeks':
+        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).order_by(UserCaloriesOverTime.id.desc()).limit(14).all()
+    elif time_frame == '3 Weeks':
+        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).order_by(UserCaloriesOverTime.id.desc()).limit(21).all()
+    elif time_frame == '1 Month':
+        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).order_by(UserCaloriesOverTime.id.desc()).limit(30).all()
+
+    labels = []
+    values = []
+    for cl in calories:
+        labels.append(cl.created_at.strftime("%m/%d"))
+        values.append(cl.calories)
+
+    recommended_intake = UserCalories.query.filter_by(user_id=current_user.id).first().calories
+    averaged = round(sum(values) / len(values))
+
+    return render_template('calories_over_time.html', title='Calories Over Time', time_frame=time_frame, labels=labels, values=values, form=form, recommended_intake=recommended_intake, averaged=averaged)
+
+
+
+@app.route('/show-bmi/', methods=['GET', 'POST'])
+@login_required
+@account_complete
+def show_bmi(time_frame=None):
+    """ 
+    Use the results of the past month for the default visualization, 
+    but also show the dropdown form to allow the user to select a different time range. 
+    This has values for 1 week, 2 weeks, 3 weeks, 1 month, 3 months, 6 months, 1 year.
+    """
+    form = BMITimeFilterForm()
+    if form.validate_on_submit():
+        time_frame = form.time.data
+    if time_frame is None:
+        bmis = UserBMIOverTime.query.filter_by(user_id=current_user.id).filter(UserBMIOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=30)).all()
+        time_frame = '1 Month'
+    elif time_frame == '1 Week':
+        bmis = UserBMIOverTime.query.filter_by(user_id=current_user.id).filter(UserBMIOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=7)).all()
+    elif time_frame == '2 Weeks':
+        bmis = UserBMIOverTime.query.filter_by(user_id=current_user.id).filter(UserBMIOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=14)).all()
+    elif time_frame == '3 Weeks':
+        bmis = UserBMIOverTime.query.filter_by(user_id=current_user.id).filter(UserBMIOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=21)).all()
+    elif time_frame == '1 Month':
+        bmis = UserBMIOverTime.query.filter_by(user_id=current_user.id).filter(UserBMIOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=30)).all()
+    elif time_frame == '3 Months':
+        bmis = UserBMIOverTime.query.filter_by(user_id=current_user.id).filter(UserBMIOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=90)).all()
+    elif time_frame == '6 Months':
+        bmis = UserBMIOverTime.query.filter_by(user_id=current_user.id).filter(UserBMIOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=180)).all()
+    elif time_frame == '1 Year':
+        bmis = UserBMIOverTime.query.filter_by(user_id=current_user.id).filter(UserBMIOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=365)).all()
+
+
+    labels = []
+    values = []
+    for bmi in bmis:
+        print(bmi.bmi)
+        labels.append(bmi.created_at.strftime("%m/%d"))
+        values.append(bmi.bmi)
+
+    return render_template('bmi_over_time.html', title='BMI Over Time', time_frame=time_frame, labels=labels, values=values, form=form)
+    
 
 
 def send_reset_email(user):
@@ -246,7 +357,7 @@ def send_reset_email(user):
 
     mail.send(msg)
 
-@app.route('/reset_password', methods=['GET', 'POST'])
+@app.route('/reset-password', methods=['GET', 'POST'])
 def reset_request():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -258,7 +369,7 @@ def reset_request():
         return redirect(url_for('login'))
     return render_template('reset_request.html', title='Reset Password', form=form)
 
-@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+@app.route('/reset-password/<token>', methods=['GET', 'POST'])
 def reset_token(token):
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -274,5 +385,3 @@ def reset_token(token):
         flash('Your password has been updated! You are now able to log in', 'success')
         return redirect(url_for('login'))
     return render_template('reset_token.html', title='Reset Password', form=form)
-
-

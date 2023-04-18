@@ -1,5 +1,5 @@
 import unittest
-from web.diet.forms import RegistrationForm, LoginForm, UpdateAccountForm, CalculateCalories
+from ..web.forms import RegistrationForm, LoginForm, UpdateAccountForm, CalculateCalories
 
 class TestForms(unittest.TestCase):
     def test_registration_form(self):

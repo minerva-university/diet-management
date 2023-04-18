@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section">
+        <h2>BMI Chart for {{ time_frame }}</h2>
+        <div>
+            <form method="POST">
+                {{ form.csrf_token }}
+                <div class="form-group">
+                    {{ form.time.label }}
+                    {{ form.time(class="form-control") }}
+                </div>
+                <button type="submit" class="btn btn-primary">Show Results</button>
+            </form>
+            {% if values|length == 1 %}
+                <canvas id="bmi-chart" data-chart-type="bar"></canvas>
+            {% else %}
+                <canvas id="bmi-chart"></canvas>
+            {% endif %}
+        </div>
+        
+        <script>
+            var ctx = document.getElementById('bmi-chart').getContext('2d');
+            var labels = {{ labels|tojson }};
+            var values = {{ values|tojson }};
+            var interval = Math.ceil(labels.length / 7);
+            var reducedLabels = labels.filter(function(label, index) {
+                return index % interval === 0;
+            });
+            var chartType = document.getElementById('bmi-chart').getAttribute('data-chart-type');
+            var chartOptions = {
+                title: {
+                    display: true,
+                    text: 'BMI Chart for {{ time_frame }}'
+                },
+                scales: {
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Date'
+                        }
+                    }],
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'BMI'
+                        },
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            };
+            if (chartType === 'bar') {
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: reducedLabels,
+                        datasets: [{
+                            label: 'BMI',
+                            data: values,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: chartOptions
+                });
+            } else {
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: reducedLabels,
+                        datasets: [{
+                            label: 'BMI',
+                            data: values,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: chartOptions
+                });
+            }
+        </script>
+    </div>
+{% endblock content %}

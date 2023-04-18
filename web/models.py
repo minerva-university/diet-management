@@ -10,7 +10,7 @@ def load_user(user_id):
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.Text, nullable=False)
+    name = db.Column(db.Text, nullable=False)
     email = db.Column(db.Text, nullable=False)
     password = db.Column(db.Text, nullable=False)
     image_file = db.Column(db.Text, nullable=False, default='default.jpg')
@@ -24,6 +24,7 @@ class User(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
     is_active = db.Column(db.Boolean, default=True, nullable=False)
+    bmis = db.relationship('UserBMIOverTime', backref='user', lazy=True)
 
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(app.config['SECRET_KEY'], expires_sec)
@@ -42,8 +43,37 @@ class User(db.Model, UserMixin):
         # return user id as unicode
         return str(self.id)
     
+    @property
+    def get_bmi(self):
+        """
+        Using the property decorator to make this an attribute that we can caculate dynamically
+        """
+        return round(self.weight / (self.height / 100) ** 2, 2)
+    
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}')"
+        return f"User('{self.name}', '{self.email}')"
+    
+
+class UserBMIOverTime(db.Model):
+    __tablename__ = 'user_bmi_over_time'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    bmi = db.Column(db.Float, nullable=False)
+    created_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
+
+    def __repr__(self):
+        return f"UserBMIOverTime('{self.id}', '{self.bmi}')"
+    
+class UserCaloriesOverTime(db.Model):
+    __tablename__ = 'user_calories_over_time'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    calories = db.Column(db.Integer, nullable=False)
+    created_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
+
+    def __repr__(self):
+        return f"UserCaloriesOverTime('{self.id}', '{self.calories}')"
+
 
 class UserCalories(db.Model):
     __tablename__ = 'user_calories'
