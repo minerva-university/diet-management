@@ -1,0 +1,56 @@
+
+
+*{
+  background-color: white;
+}
+  /* Create two equal columns that floats next to each other */
+  .column1 {
+    float: left;
+    width: 50%;
+    height:100%;
+    margin: 0;
+    padding: 0;
+    float: left;
+    }
+    
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  #right_col{
+    width: 50%;
+    padding-right: 15px;
+    padding-top: 0;
+  }
+
+  #left_col{
+    padding-top: 0;
+  
+  }
+ 
+.app_name{
+  text-align: center;
+  padding-top: 0;
+}
+.border-bottom mb-4{
+  text-align: center;
+}
+.btn{
+  color: white;
+  width: 100%;
+  background-color:orange;
+}
+.responsive{
+  width: 850px;
+  height: 700px;
+}
+
+.logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
