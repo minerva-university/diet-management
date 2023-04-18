@@ -21,4 +21,6 @@
     <h3>Total Diet Calories: {{ round(diet_calories.calories) }}</h3>
     <!-- Added button to generate another diet directing to get_meals -->
     <a class="btn btn-primary" href="{{ url_for('get_meals') }}">Generate Another Diet</a>
+    <!-- If they choose diet generated, let the system know by pressing a button. This is useful to track the calorie intake-->
+    <a class="btn btn-secondary" href="{{ url_for('save_calories') }}" style="margin-left: 10px;">I choose this diet</a>
 {% endblock %}
