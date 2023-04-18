@@ -341,7 +341,6 @@ def show_bmi(time_frame=None):
     labels = []
     values = []
     for bmi in bmis:
-        print(bmi.bmi)
         labels.append(bmi.created_at.strftime("%m/%d"))
         values.append(bmi.bmi)
 
