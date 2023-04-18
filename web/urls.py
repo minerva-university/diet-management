@@ -238,19 +238,26 @@ def show_meals():
         user_current_meals = UserCurrentDietMeals.query.filter_by(user_current_diet_id=user_current_diet.id).all()
         meals = []
         servings = []
+        labels=[]
         for user_current_meal in user_current_meals:
             meal = Meals.query.filter_by(id=user_current_meal.meal_id).first()
+            meal_id=user_current_meal.meal_id
+            print(meal_id)
+            label=MealsLabel.query.filter_by(id=meal_id).first()
+            meal_type=label.label
             serving_size = user_current_meal.serving_size
             servings.append(serving_size)
             meals.append(meal)
+            labels.append(label)
         diet_calories = DietCalories.query.filter_by(user_current_diet_id=user_current_diet.id).first()
-        # print(diet_calories, meals)
+
         return render_template('show_meals.html',
                                title='Get Meals',
                                current_user=current_user,
                                meals=meals,
                                diet_calories=diet_calories,
                                servings=servings,
+                               labels=labels,
                                zip=zip,
                                round=round)
     else:
