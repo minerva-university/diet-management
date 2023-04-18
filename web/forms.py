@@ -71,7 +71,7 @@ class ResetPasswordForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset Password')
 
-class BMITimeFilterForm(FlaskForm):
+class WeightTimeFilterForm(FlaskForm):
     """
     Form to allow the user to choose a timeframe for the graph to show their bmi history
     """

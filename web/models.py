@@ -24,7 +24,7 @@ class User(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
     is_active = db.Column(db.Boolean, default=True, nullable=False)
-    bmis = db.relationship('UserBMIOverTime', backref='user', lazy=True)
+    weights = db.relationship('UserWeightOverTime', backref='user', lazy=True)
 
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(app.config['SECRET_KEY'], expires_sec)
@@ -54,15 +54,15 @@ class User(db.Model, UserMixin):
         return f"User('{self.name}', '{self.email}')"
     
 
-class UserBMIOverTime(db.Model):
+class UserWeightOverTime(db.Model):
     __tablename__ = 'user_bmi_over_time'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    bmi = db.Column(db.Float, nullable=False)
+    weight = db.Column(db.Float, nullable=False)
     created_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
 
     def __repr__(self):
-        return f"UserBMIOverTime('{self.id}', '{self.bmi}')"
+        return f"UserWeightOverTime('{self.id}', '{self.bmi}')"
     
 class UserCaloriesOverTime(db.Model):
     __tablename__ = 'user_calories_over_time'

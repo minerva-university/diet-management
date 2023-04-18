@@ -4,8 +4,8 @@ import os
 from PIL import Image
 from flask import render_template, request, redirect, url_for, flash
 from web import app, db, bcrypt, mail
-from web.forms import RegistrationForm, LoginForm, UpdateAccountForm, CalculateCalories, RequestResetForm, ResetPasswordForm, BMITimeFilterForm, CaloriesTimeFilterForm
-from web.models import User, UserCalories, UserCurrentDiet, UserCurrentDietMeals, Meals, MealsPhotos, MealsLabel, DietCalories, UserBMIOverTime, UserCaloriesOverTime
+from web.forms import RegistrationForm, LoginForm, UpdateAccountForm, CalculateCalories, RequestResetForm, ResetPasswordForm, WeightTimeFilterForm, CaloriesTimeFilterForm
+from web.models import User, UserCalories, UserCurrentDiet, UserCurrentDietMeals, Meals, MealsPhotos, MealsLabel, DietCalories, UserWeightOverTime, UserCaloriesOverTime
 from flask_login import login_user, current_user, logout_user, login_required
 from web.meal_planner import choose_meals_for_user
 from functools import wraps
@@ -84,10 +84,10 @@ def finish_account():
         current_user.activity_level = form.activity_level.data
         current_user.gender = form.gender.data
 
-        # populate the UserBMIOverTime table
-        bmi = current_user.calculate_bmi()
-        bmi_over_time = UserBMIOverTime(user_id=current_user.id, bmi=bmi)
-        db.session.add(bmi_over_time)
+        # populate the UserWeightOverTime table
+        weight = current_user.weight
+        weight_over_time = UserWeightOverTime(user_id=current_user.id, weight=weight)
+        db.session.add(weight_over_time)
 
         db.session.commit()
         flash('Your account has been initialized!', 'success')
@@ -118,10 +118,10 @@ def account():
             picture_file = save_picture(form.picture.data)
             current_user.image_file = picture_file
 
-        bmi_changed = False
-        # add to the UserBMIOverTime table if the user has updated their height or weight
-        if current_user.height != form.height.data or current_user.weight != form.weight.data:
-            bmi_changed = True
+        weight_changed = False
+        # add to the UserWeightOverTime table if the user has updated their height or weight
+        if current_user.weight != form.weight.data:
+            weight_changed = True
 
         current_user.height = form.height.data
         current_user.weight = form.weight.data
@@ -130,10 +130,10 @@ def account():
         current_user.activity_level = form.activity_level.data
         current_user.gender = form.gender.data
 
-        if bmi_changed:
-            bmi = current_user.get_bmi
-            bmi_over_time = UserBMIOverTime(user_id=current_user.id, bmi=bmi)
-            db.session.add(bmi_over_time)
+        if weight_changed:
+            weight = current_user.weight
+            weight_over_time = UserWeightOverTime(user_id=current_user.id, weight=weight)
+            db.session.add(weight_over_time)
 
         db.session.commit()
         flash('Your account has been updated!', 'success')
@@ -307,44 +307,44 @@ def show_calories(time_frame=None):
 
 
 
-@app.route('/show-bmi/', methods=['GET', 'POST'])
+@app.route('/show-weight/', methods=['GET', 'POST'])
 @login_required
 @account_complete
-def show_bmi(time_frame=None):
+def show_weight(time_frame=None):
     """ 
     Use the results of the past month for the default visualization, 
     but also show the dropdown form to allow the user to select a different time range. 
     This has values for 1 week, 2 weeks, 3 weeks, 1 month, 3 months, 6 months, 1 year.
     """
-    form = BMITimeFilterForm()
+    form = WeightTimeFilterForm()
     if form.validate_on_submit():
         time_frame = form.time.data
     if time_frame is None:
-        bmis = UserBMIOverTime.query.filter_by(user_id=current_user.id).filter(UserBMIOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=30)).all()
+        weights = UserWeightOverTime.query.filter_by(user_id=current_user.id).filter(UserWeightOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=30)).all()
         time_frame = '1 Month'
     elif time_frame == '1 Week':
-        bmis = UserBMIOverTime.query.filter_by(user_id=current_user.id).filter(UserBMIOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=7)).all()
+        weights = UserWeightOverTime.query.filter_by(user_id=current_user.id).filter(UserWeightOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=7)).all()
     elif time_frame == '2 Weeks':
-        bmis = UserBMIOverTime.query.filter_by(user_id=current_user.id).filter(UserBMIOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=14)).all()
+        weights = UserWeightOverTime.query.filter_by(user_id=current_user.id).filter(UserWeightOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=14)).all()
     elif time_frame == '3 Weeks':
-        bmis = UserBMIOverTime.query.filter_by(user_id=current_user.id).filter(UserBMIOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=21)).all()
+        weights = UserWeightOverTime.query.filter_by(user_id=current_user.id).filter(UserWeightOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=21)).all()
     elif time_frame == '1 Month':
-        bmis = UserBMIOverTime.query.filter_by(user_id=current_user.id).filter(UserBMIOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=30)).all()
+        weights = UserWeightOverTime.query.filter_by(user_id=current_user.id).filter(UserWeightOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=30)).all()
     elif time_frame == '3 Months':
-        bmis = UserBMIOverTime.query.filter_by(user_id=current_user.id).filter(UserBMIOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=90)).all()
+        weights = UserWeightOverTime.query.filter_by(user_id=current_user.id).filter(UserWeightOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=90)).all()
     elif time_frame == '6 Months':
-        bmis = UserBMIOverTime.query.filter_by(user_id=current_user.id).filter(UserBMIOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=180)).all()
+        weights = UserWeightOverTime.query.filter_by(user_id=current_user.id).filter(UserWeightOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=180)).all()
     elif time_frame == '1 Year':
-        bmis = UserBMIOverTime.query.filter_by(user_id=current_user.id).filter(UserBMIOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=365)).all()
+        weights = UserWeightOverTime.query.filter_by(user_id=current_user.id).filter(UserWeightOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=365)).all()
 
 
     labels = []
     values = []
-    for bmi in bmis:
-        labels.append(bmi.created_at.strftime("%m/%d"))
-        values.append(bmi.bmi)
+    for weight in weights:
+        labels.append(weight.created_at.strftime("%m/%d"))
+        values.append(weight.weight)
 
-    return render_template('bmi_over_time.html', title='BMI Over Time', time_frame=time_frame, labels=labels, values=values, form=form)
+    return render_template('weight_over_time.html', title='weight Over Time', time_frame=time_frame, labels=labels, values=values, form=form)
     
 
 
