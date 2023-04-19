@@ -28,6 +28,14 @@ class TestMealPlanner:
     
                 # Unpack the values returned by the function
                 breakfast_meal, lunch_meal, dinner_meal = choose_meals_for_user(1)
+
+                # Unpack further if the values are tuples
+                if isinstance(breakfast_meal, tuple):
+                    (breakfast_meal,) = breakfast_meal
+                if isinstance(lunch_meal, tuple):
+                    (lunch_meal,) = lunch_meal
+                if isinstance(dinner_meal, tuple):
+                    (dinner_meal,) = dinner_meal
     
                 # Assertions
                 mock_meals_names = [meal.name for meal in self.mock_meals]
