@@ -13,18 +13,15 @@ class TestMealPlanner:
     ]
     mock_user_calories = UserCalories(calories=2000)
 
-
     def test_choose_meals_for_user(self):
         with patch("web.meal_planner.random.uniform", side_effect=[1.0, 1.0, 0.7, 1.3, 0.7, 1.3]) as mock_random_uniform:
-            Meals.query = MagicMock()
-            Meals.query.join.return_value = Meals.query
+            mock_query = MagicMock()
+            Meals.query = mock_query
+            mock_query.join.return_value = mock_query
+            mock_query.filter.return_value = mock_query
 
-            def mock_filter(label_expression):
-                label = str(label_expression.right)  # Extract the label value
-                return [meal for meal in self.mock_meals if label.lower() in meal.name.lower()]
-
-            Meals.query.filter.side_effect = mock_filter
-            Meals.query.all.return_value = self.mock_meals
+            # Define a list of meals that should be returned when the .all() method is called
+            mock_query.all.return_value = self.mock_meals
 
             with patch("web.meal_planner.UserCalories.query.filter_by") as mock_filter_by:
                 mock_filter_by.return_value.first.return_value = self.mock_user_calories
