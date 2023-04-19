@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
@@ -7,7 +7,6 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
@@ -16,11 +15,15 @@
       crossorigin="anonymous"
     />
 
+    <!-- include chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <link
       rel="stylesheet"
       type="text/css"
       href="{{ url_for('static', filename='main.css') }}"
     />
+
     {% if title %}
     <title>Diet Management - {{ title }}</title>
     {% else %}
@@ -64,6 +67,16 @@
             >
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('show_weight') }}"
+              >Weight Tracker</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('show_calories') }}"
+              >Calories Tracker</a
+            >
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
           </li>
           {% else %}
@@ -76,7 +89,7 @@
           {% endif %}
         </ul>
         {% if current_user.is_authenticated %}
-        <span class="navbar-text"> Welcome, {{ current_user.username }}! </span>
+        <span class="navbar-text"> Welcome, {{ current_user.name }}! </span>
         {% endif %}
       </div>
     </nav>

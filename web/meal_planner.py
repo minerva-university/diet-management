@@ -14,7 +14,7 @@ def choose_meals_for_user(user_id):
     # Add random error (+/- 10%) to the allocated calories for each meal
     breakfast_calories_flexible = random.uniform(0.7, 1.3) * breakfast_calories
     lunch_calories_flexible = random.uniform(0.7, 1.3) * lunch_calories
-    dinner_calories_flexible = random.uniform(0.7, 1.3) * breakfast_calories
+    dinner_calories_flexible = random.uniform(0.7, 1.3) * dinner_calories
 
     # Helper function to find the closest meal based on allocated calories
     def find_closest_meal(meals, target_calories):
