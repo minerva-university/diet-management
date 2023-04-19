@@ -20,8 +20,10 @@ def mock_first():
 def test_login_form_valid_credentials(mock_user_query):
     with app.test_request_context():  # create a request context
         with app.app_context():  # create an application context
-            form = LoginForm(email="test@example.com", password="testpassword")
-            assert form.validate() == True
+            form = LoginForm(email="test@example.com", password="password")
+            validation_result = form.validate()
+            print("Form errors:", form.errors)
+            assert validation_result == True
 
 def test_login_form_invalid_credentials(mock_user_query):
     with app.test_request_context():  # create a request context
