@@ -33,5 +33,3 @@ def test_choose_meals_for_user(mock_meals, mock_user_calories):
             assert breakfast_meal[1] >= 0.7 and breakfast_meal[1] <= 1.3
             assert lunch_meal[1] >= 0.7 and lunch_meal[1] <= 1.3
             assert dinner_meal[1] >= 0.7 and dinner_meal[1] <= 1.3
-
-
