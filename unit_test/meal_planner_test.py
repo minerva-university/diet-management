@@ -27,9 +27,7 @@ class TestMealPlanner:
                 mock_filter_by.return_value.first.return_value = self.mock_user_calories
     
                 # Unpack the values returned by the function
-                result = choose_meals_for_user(1)
-                print(result)  # Debug print
-                breakfast_meal, lunch_meal, dinner_meal = result
+                (breakfast_meal, _), (lunch_meal, _), (dinner_meal, _) = choose_meals_for_user(1)
     
                 # Assertions
                 mock_meals_names = [meal.name for meal in self.mock_meals]
