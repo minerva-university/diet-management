@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="en">
+  <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap CSS --> 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <!-- include chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    
     {% if title %}
         <title>Diet Management - {{ title }}</title>
     {% else %}
@@ -17,7 +19,7 @@
     {% endif %}
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: white;">
     <a class="navbar-brand" href="/">Diet Management</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -41,6 +43,12 @@
                     <a class="nav-link" href="{{ url_for('show_meals') }}">Show Meals</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('show_weight') }}">Weight Tracker</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('show_calories') }}">Calories Tracker</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
                 </li>
             {% else %}
@@ -54,7 +62,7 @@
         </ul>
         {% if current_user.is_authenticated %}
             <span class="navbar-text">
-                Welcome, {{ current_user.username }}!
+                Welcome, {{ current_user.name }}!
             </span>
         {% endif %}
     </div>
