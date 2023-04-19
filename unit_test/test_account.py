@@ -97,4 +97,3 @@ def test_account_weight_history(test_user):
         updated_weight_history = UserWeightOverTime.query.filter_by(user_id=test_user.id).all()
         assert len(updated_weight_history) == 2
         assert updated_weight_history[1].weight == 85
-        
