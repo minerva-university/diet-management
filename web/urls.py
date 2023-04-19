@@ -40,6 +40,7 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form, legend='Sign Up')
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -65,11 +66,13 @@ def login():
 
     return render_template('login.html', title='Login', form=form, legend='Log In')
 
+
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
 
 # finish setting up the account
 @app.route('/finish-account', methods=['GET', 'POST'])
@@ -93,6 +96,7 @@ def finish_account():
         flash('Your account has been initialized!', 'success')
         return redirect(url_for('get_calories'))
     return render_template('finish_account.html', title='Complete Account Details', form=form)
+
 
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
@@ -148,6 +152,7 @@ def account():
         if current_user.activity_level: form.activity_level.data = current_user.activity_level
         if current_user.gender: form.gender.data = current_user.gender
     return render_template('account.html', title='Account', form=form, image_file=image_file)
+
 
 # separated so it can be tested easily with unittest
 def calculate_calories(current_user):
@@ -229,6 +234,7 @@ def get_meals():
     db.session.commit()
     return redirect(url_for('show_meals'))
 
+
 @app.route('/show-meals', methods=['GET'])
 @login_required
 @account_complete
@@ -263,6 +269,7 @@ def show_meals():
     else:
         return redirect(url_for('get_meals'))
 
+
 @app.route('/save-meal', methods=['GET', 'POST'])
 @login_required
 @account_complete
@@ -276,6 +283,7 @@ def save_calories():
     db.session.commit()
     flash('You chose a great meal plan for today!', 'success')
     return redirect(url_for('index'))
+
 
 @app.route('/show-calories', methods=['GET', 'POST'])
 @login_required
@@ -311,7 +319,6 @@ def show_calories(time_frame=None):
     averaged = round(sum(values) / len(values))
 
     return render_template('calories_over_time.html', title='Calories Over Time', time_frame=time_frame, labels=labels, values=values, form=form, recommended_intake=recommended_intake, averaged=averaged)
-
 
 
 @app.route('/show-weight/', methods=['GET', 'POST'])
@@ -354,7 +361,6 @@ def show_weight(time_frame=None):
     return render_template('weight_over_time.html', title='weight Over Time', time_frame=time_frame, labels=labels, values=values, form=form)
     
 
-
 def send_reset_email(user):
     token = user.get_reset_token()
     msg = Message('Password Reset Request', sender = "mealmindy@proton.me", recipients = [user.email])
@@ -362,6 +368,7 @@ def send_reset_email(user):
     msg.body = f"To reset your password, visit the following link : {url_for('reset_token', token=token, _external=True)} If you did not make this request then simply ignore this email and no changes will be made."
 
     mail.send(msg)
+
 
 @app.route('/reset-password', methods=['GET', 'POST'])
 def reset_request():
@@ -374,6 +381,7 @@ def reset_request():
         flash('An email has been sent with instructions to reset your password.', 'info')
         return redirect(url_for('login'))
     return render_template('reset_request.html', title='Reset Password', form=form)
+
 
 @app.route('/reset-password/<token>', methods=['GET', 'POST'])
 def reset_token(token):
