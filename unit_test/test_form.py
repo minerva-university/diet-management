@@ -4,6 +4,7 @@ from web.models import User
 from web.forms import LoginForm
 
 class TestLoginForm(LoginForm):
+    __test__ = False
     class Meta:
         csrf = False
 
