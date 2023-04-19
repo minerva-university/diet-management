@@ -11,6 +11,7 @@ from web.forms import (
     CaloriesTimeFilterForm,
 )
 from web.models import User
+from web import app  # imports the Flask app instance
 
 # Mock data for testing
 users = [
@@ -40,8 +41,7 @@ def test_registration_form_validates_email(mock_user_query):
         form.validate_email(form.email)
 
 def test_login_form():
-    form = LoginForm(email="test@example.com", password="testpassword")
-    assert form.email.data == "test@example.com"
-    assert form.password.data == "testpassword"
-
-# Add tests for the remaining forms following a similar pattern
+    with app.app_context():  # create an application context for the test
+        form = LoginForm(email="test@example.com", password="testpassword")
+        assert form.email.data == "test@example.com"
+        assert form.password.data == "testpassword"
