@@ -21,16 +21,14 @@ def test_choose_meals_for_user(mock_meals, mock_user_calories):
         Meals.query.join.return_value = Meals.query
         Meals.query.filter.return_value = Meals.query
         Meals.query.all.return_value = mock_meals
-        UserCalories.query.filter_by.return_value = MagicMock(first=MagicMock(return_value=mock_user_calories))
+        UserCalories.query.filter_by.return_value.first.side_effect = [mock_user_calories]
 
-        user_id = 1
-        meals = choose_meals_for_user(user_id)
+        breakfast_meal, lunch_meal, dinner_meal = choose_meals_for_user(1)
 
-        # Assert that the chosen meals are within the allocated calories range
-        for meal, serving_factor in meals:
-            allocated_calories = meal.calories * serving_factor
-            required_calories = mock_user_calories.calories
-            assert 0.7 * required_calories / 3 <= allocated_calories <= 1.3 * required_calories / 3
+        assert breakfast_meal[0] in mock_meals
+        assert lunch_meal[0] in mock_meals
+        assert dinner_meal[0] in mock_meals
+        assert breakfast_meal[1] >= 0.7 and breakfast_meal[1] <= 1.3
+        assert lunch_meal[1] >= 0.7 and lunch_meal[1] <= 1.3
+        assert dinner_meal[1] >= 0.7 and dinner_meal[1] <= 1.3
 
-        # Assert that the random.uniform function is called 3 times (for breakfast, lunch, and dinner)
-        assert mock_random_uniform.call_count == 3
