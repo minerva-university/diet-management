@@ -2,17 +2,17 @@ from unittest.mock import patch, MagicMock
 from web.meal_planner import choose_meals_for_user
 from web.models import Meals, UserCalories
 
-
 class TestMealPlanner:
     mock_meals = [
-        Meals('Breakfast Meal 1', 100),
-        Meals('Breakfast Meal 2', 200),
-        Meals('Lunch Meal 1', 300),
-        Meals('Lunch Meal 2', 400),
-        Meals('Dinner Meal 1', 500),
-        Meals('Dinner Meal 2', 600)
+        Meals(name='Breakfast Meal 1', calories=100, serving_size=1, recipe='Recipe 1'),
+        Meals(name='Breakfast Meal 2', calories=200, serving_size=1, recipe='Recipe 2'),
+        Meals(name='Lunch Meal 1', calories=300, serving_size=1, recipe='Recipe 3'),
+        Meals(name='Lunch Meal 2', calories=400, serving_size=1, recipe='Recipe 4'),
+        Meals(name='Dinner Meal 1', calories=500, serving_size=1, recipe='Recipe 5'),
+        Meals(name='Dinner Meal 2', calories=600, serving_size=1, recipe='Recipe 6')
     ]
-    mock_user_calories = UserCalories(2000)
+    mock_user_calories = UserCalories(calories=2000)
+
 
     def test_choose_meals_for_user(self):
         with patch("web.meal_planner.random.uniform", side_effect=[1.0, 1.0, 0.7, 1.3, 0.7, 1.3]) as mock_random_uniform:
