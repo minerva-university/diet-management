@@ -21,7 +21,7 @@ def test_choose_meals_for_user(mock_meals, mock_user_calories):
         Meals.query.join.return_value = Meals.query
         
         def mock_filter(label_expression):
-            label = label_expression.value
+            label = str(label_expression.right)  # Extract the label value
             return [meal for meal in mock_meals if label in meal.name]
         
         Meals.query.filter.side_effect = mock_filter
