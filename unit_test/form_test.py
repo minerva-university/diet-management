@@ -1,6 +1,6 @@
 import pytest
 from wtforms.validators import ValidationError
-from app.forms import (
+from web.forms import (
     RegistrationForm,
     LoginForm,
     UpdateAccountForm,
@@ -10,7 +10,7 @@ from app.forms import (
     WeightTimeFilterForm,
     CaloriesTimeFilterForm,
 )
-from wev.models import User
+from web.models import User
 
 # Mock data for testing
 users = [
