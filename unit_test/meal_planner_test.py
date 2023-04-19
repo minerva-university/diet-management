@@ -1,48 +1,43 @@
-import pytest
-from unittest.mock import MagicMock, patch
-from web.models import Meals, MealsLabel, UserCalories
+from unittest.mock import patch, MagicMock
 from web.meal_planner import choose_meals_for_user
+from web.models import Meals, UserCalories
 
 
-@pytest.fixture
-def mock_meals():
-    meals = [Meals(id=i, name=f"Meal {i}", calories=i * 100) for i in range(1, 6)]
-    return meals
+class TestMealPlanner:
+    mock_meals = [
+        Meals('Breakfast Meal 1', 100),
+        Meals('Breakfast Meal 2', 200),
+        Meals('Lunch Meal 1', 300),
+        Meals('Lunch Meal 2', 400),
+        Meals('Dinner Meal 1', 500),
+        Meals('Dinner Meal 2', 600)
+    ]
+    mock_user_calories = UserCalories(2000)
 
+    def test_choose_meals_for_user(self):
+        with patch("web.meal_planner.random.uniform", side_effect=[1.0, 1.0, 0.7, 1.3, 0.7, 1.3]) as mock_random_uniform:
+            Meals.query = MagicMock()
+            Meals.query.join.return_value = Meals.query
 
-@pytest.fixture
-def mock_user_calories():
-    return UserCalories(user_id=1, calories=2000)
+            def mock_filter(label_expression):
+                label = str(label_expression.right)  # Extract the label value
+                return [meal for meal in self.mock_meals if label.lower() in meal.name.lower()]
 
+            Meals.query.filter.side_effect = mock_filter
+            Meals.query.all.return_value = self.mock_meals
 
-class MockQuery:
-    def __init__(self, items):
-        self.items = items
+            with patch("web.meal_planner.UserCalories.query.filter_by") as mock_filter_by:
+                mock_filter_by.return_value.first.return_value = self.mock_user_calories
 
-    def filter(self, label_expression):
-        label = str(label_expression.right)
-        return MockQuery([item for item in self.items if label in item.name])
+                breakfast_meal, lunch_meal, dinner_meal = choose_meals_for_user(1)
 
-    def all(self):
-        return self.items
+                # Assertions
+                mock_meals_names = [meal.name for meal in self.mock_meals]
+                assert breakfast_meal.name in mock_meals_names, "Breakfast meal not found in the mock meals"
+                assert lunch_meal.name in mock_meals_names, "Lunch meal not found in the mock meals"
+                assert dinner_meal.name in mock_meals_names, "Dinner meal not found in the mock meals"
 
-mock_meals = [Meals('Meal 1', '100'), Meals('Meal 2', '200'), Meals('Meal 3', '300'), Meals('Meal 4', '400'), Meals('Meal 5', '500')]
-mock_user_calories = UserCalories('None', '2000')
-
-def test_choose_meals_for_user(mock_meals, mock_user_calories):
-    with patch("web.meal_planner.random.uniform", side_effect=[1.0, 1.0, 0.7, 1.3, 0.7, 1.3]) as mock_random_uniform:
-        Meals.query = MockQuery(mock_meals)  # Initialize MockQuery with the mock_meals
-        Meals.query.join.return_value = Meals.query
-
-        with patch("web.meal_planner.UserCalories.query.filter_by") as mock_filter_by:
-            mock_filter_by.return_value.first.return_value = mock_user_calories
-
-            breakfast_meal, lunch_meal, dinner_meal = choose_meals_for_user(1)
-
-            assert breakfast_meal[0] in mock_meals
-            assert lunch_meal[0] in mock_meals
-            assert dinner_meal[0] in mock_meals
-            assert breakfast_meal[1] >= 0.7 and breakfast_meal[1] <= 1.3
-            assert lunch_meal[1] >= 0.7 and lunch_meal[1] <= 1.3
-            assert dinner_meal[1] >= 0.7 and dinner_meal[1] <= 1.3
-
+                # Check if the total calories for the selected meals are within the required calories
+                total_calories = breakfast_meal.calories + lunch_meal.calories + dinner_meal.calories
+                required_calories = self.mock_user_calories.calories
+                assert 0.7 * required_calories <= total_calories <= 1.3 * required_calories, "Total calories not within the required range"
