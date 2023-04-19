@@ -18,20 +18,21 @@ users = [
     User(id=2, name="Another User", email="another@example.com", password="anotherpassword"),
 ]
 
-# Utility function for mocking query results
+# Fixture to mock User query
+@pytest.fixture
+def mock_user_query(monkeypatch):
+    def mock_filter_by(*args, **kwargs):
+        return mock_first
+
+    monkeypatch.setattr(User, "query", lambda: None)
+    monkeypatch.setattr(User.query, "filter_by", mock_filter_by)
+
 def mock_first(*args, **kwargs):
     email = kwargs["email"]
     for user in users:
         if user.email == email:
             return user
     return None
-
-# Fixture to mock User query
-@pytest.fixture
-def mock_user_query(monkeypatch):
-    monkeypatch.setattr(User, "query", lambda: None)
-    monkeypatch.setattr(User.query, "filter_by", lambda **kwargs: None)
-    monkeypatch.setattr(User.query.filter_by, "first", mock_first)
 
 def test_registration_form_validates_email(mock_user_query):
     form = RegistrationForm(email="test@example.com")
