@@ -192,6 +192,7 @@ def calculate_calories(current_user):
 @account_complete
 def get_calories():
     calories = calculate_calories(current_user)
+    UserCalories.query.filter_by(user_id=current_user.id).delete()
     user_calories = UserCalories(calories=calories, user_id=current_user.id)
     db.session.add(user_calories)
     db.session.commit()
@@ -244,7 +245,6 @@ def show_meals():
             meal_id=user_current_meal.meal_id
             print(meal_id)
             label=MealsLabel.query.filter_by(id=meal_id).first()
-            meal_type=label.label
             serving_size = user_current_meal.serving_size
             servings.append(serving_size)
             meals.append(meal)
