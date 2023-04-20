@@ -14,7 +14,7 @@ RUN apk update && \
  apk --purge del .build-deps
 
 # Make port 5000 available to the world outside this container
-EXPOSE 49153
+EXPOSE 5000
 
 # Run app.py when the container launches
 CMD ["python", "run.py"]
