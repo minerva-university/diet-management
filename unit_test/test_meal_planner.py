@@ -1,3 +1,6 @@
+import os
+# Set the DATABASE_URL environment variable to use SQLite test database
+os.environ['DATABASE_URL'] = 'sqlite:///test.db'
 import pytest
 from web import app, db
 from web.models import User, Meals, UserCalories, MealsLabel
