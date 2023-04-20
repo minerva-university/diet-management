@@ -6,6 +6,7 @@ docker stack deploy -c docker-compose.yml diet-swarm
 For turning it off
 ```
 docker stack rm diet-swarm
+docker swarm leave --force
 ```
 # Welcome to CS162 Final Project
 
