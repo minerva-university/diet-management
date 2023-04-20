@@ -1,7 +1,7 @@
 version: "3.2"
 services:
   web:
-    image: diet
+    image: dietmanagment/diet
     depends_on:
       - db
     deploy:
