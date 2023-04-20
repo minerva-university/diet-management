@@ -1,13 +1,13 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, EmailField, PasswordField, SubmitField, IntegerField, FloatField, SelectField
-from wtforms.validators import DataRequired, Length, EqualTo, ValidationError, NumberRange
+from wtforms.validators import DataRequired, Length, EqualTo, ValidationError, NumberRange, Email
 from .models import User
 from flask_login import current_user
 
 class RegistrationForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(min=2, max=20)])
-    email = EmailField('Email', validators=[DataRequired()])
+    email = EmailField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
@@ -18,13 +18,13 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('That email is taken. Please choose a different one.')
 
 class LoginForm(FlaskForm):
-    email = EmailField('Email', validators=[DataRequired()])
+    email = EmailField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
 
 class UpdateAccountForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(min=2, max=20)])
-    email = EmailField('Email', validators=[DataRequired()])
+    email = EmailField('Email', validators=[DataRequired(), Email()])
     picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
     height = FloatField('Height (cm)', validators=[DataRequired(), NumberRange(min=0.0, max=300, message='Height must be between 0.0 and 300')])
     weight = FloatField('Weight (kg)', validators=[DataRequired(), NumberRange(min=0.0, max=300.0, message='Weight must be between 0.0 and 300.0')])
@@ -58,7 +58,7 @@ class CalculateCalories(FlaskForm):
     submit = SubmitField('Submit')
 
 class RequestResetForm(FlaskForm):
-    email = EmailField('Email', validators=[DataRequired()])
+    email = EmailField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Request Password Reset')
 
     def validate_email(self, email):
