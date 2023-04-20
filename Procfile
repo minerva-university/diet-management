@@ -1,1 +1,1 @@
-web: gunicorn web:diet-management
+web: gunicorn web:app
