@@ -3,11 +3,11 @@ name: CI Tests
 on:
   push:
     branches:
-      - main  # Adjust this to match the default branch of your repository
+      - main
   pull_request:
     types: [opened, synchronize, reopened]
     branches:
-      - main  # Adjust this to match the default branch of your repository
+      - main 
 
 jobs:
   build:
