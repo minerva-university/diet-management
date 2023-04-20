@@ -17,16 +17,9 @@ class User(db.Model, UserMixin):
     weight = db.Column(db.Integer, nullable=True)
     height = db.Column(db.Integer, nullable=True)
     age = db.Column(db.Integer, nullable=True)
-<<<<<<< HEAD
-    activity_level = db.Column(db.Enum('Sedentary', 'Lightly Active', 'Moderately Active', 'Very Active', 'Extra Active', name='activity_enum'), nullable=True)
+    activity_level = db.Column(db.Enum('Sedentary', 'Lightly Active', 'Moderately Active', 'Very Active', 'Extra Active', name="activity_enum"), nullable=True)
     gender = db.Column(db.Enum('Male', 'Female', name='gender_enum'), nullable=True)
-    goal = db.Column(db.Enum('Lose Weight', 'Gain Weight', 'Maintain Weight', name='goal_enum'), nullable=True)Lose Weight', 'Gain Weight', 'Maintain Weight'), nullable=True)
-    # activity_level = db.Column(db.Text, nullable=False, checkin=('sedentary', 'lightly active', 'moderately active', 'very active', 'extra active'))
-=======
-    activity_level = db.Column(db.Enum('Sedentary', 'Lightly Active', 'Moderately Active', 'Very Active', 'Extra Active', name="activity_types"), nullable=True)
-    gender = db.Column(db.Enum('Male', 'Female', name='gender_types'), nullable=True)
-    goal = db.Column(db.Enum('Lose Weight', 'Gain Weight', 'Maintain Weight', name='goal_types'), nullable=True)
->>>>>>> 02151b76472f16d08ace0e5e0e9d48523e1f14c1
+    goal = db.Column(db.Enum('Lose Weight', 'Gain Weight', 'Maintain Weight', name='goal_enum'), nullable=True)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
     is_active = db.Column(db.Boolean, default=True, nullable=False)
@@ -100,15 +93,9 @@ class UserHistory(db.Model):
     weight = db.Column(db.Integer, nullable=True)
     height = db.Column(db.Integer, nullable=True)
     age = db.Column(db.Integer, nullable=True)
-<<<<<<< HEAD
     activity_level = db.Column(db.Enum('Sedentary', 'Lightly Active', 'Moderately Active', 'Very Active', 'Extra Active', name='activity_enum', existing_type=True), nullable=True)
     gender = db.Column(db.Enum('Male', 'Female', name='gender_enum', existing_type=True), nullable=True)
     goal = db.Column(db.Enum('Lose Weight', 'Gain Weight', 'Maintain Weight', name='goal_enum', existing_type=True), nullable=True)
-=======
-    activity_level = db.Column(db.Enum('Sedentary', 'Lightly Active', 'Moderately Active', 'Very Active', 'Extra Active', name="activity_types"), nullable=True)
-    gender = db.Column(db.Enum('Male', 'Female', name='gender_types'), nullable=True)
-    goal = db.Column(db.Enum('Lose Weight', 'Gain Weight', 'Maintain Weight', name='goal_types'), nullable=True)
->>>>>>> 02151b76472f16d08ace0e5e0e9d48523e1f14c1
     created_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
     user = db.relationship('User', backref='user_history', lazy=True)
 
