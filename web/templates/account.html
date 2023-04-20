@@ -1,5 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='account.css') }}"
+/>
     <div class="content-section">
         <div class="media">
             <img class="rounded-circle account-img" src="{{ image_file }}">
@@ -12,8 +17,7 @@
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Account Information</legend>
-                <h3 class="border-bottom">Name: {{ current_user.name }}</h3 class="border-bottom">
-                <h3 class="border-bottom">Email: {{ current_user.email }}</h3 class="border-bottom">
+                
                 <div class="form-group">
                     {{ form.name.label(class="form-control-label") }}
 
