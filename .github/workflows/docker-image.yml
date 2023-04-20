@@ -29,8 +29,8 @@ jobs:
 
       - name: Push Docker image to Docker Hub
         run: |
-          docker tag my-image ${DOCKER_USERNAME}/diet:latest
-          docker push ${DOCKER_USERNAME}/diet:latest
+          docker tag my-image dietmanagment/diet:latest
+          docker push dietmanagment/diet:latest
 
       - name: Initiate Docker swarm
         run: docker swarm init --advertise-addr eth0
