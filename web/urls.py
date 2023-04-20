@@ -75,6 +75,8 @@ def logout():
 @app.route('/finish-account', methods=['GET', 'POST'])
 @login_required
 def finish_account():
+    if UserCalories.query.filter_by(user_id=current_user.id).first():
+        return redirect(url_for('index'))
     form = CalculateCalories()
     if form.validate_on_submit():
         current_user.height = form.height.data
@@ -235,7 +237,6 @@ def get_meals():
 @account_complete
 def show_meals():
     if UserCurrentDiet.query.filter_by(user_id=current_user.id).first():
-        # print("I am there")
         user_current_diet = UserCurrentDiet.query.filter_by(user_id=current_user.id).first()
         user_current_meals = UserCurrentDietMeals.query.filter_by(user_current_diet_id=user_current_diet.id).all()
         meals = []
@@ -265,7 +266,7 @@ def show_meals():
     else:
         return redirect(url_for('get_meals'))
 
-@app.route('/save-meal', methods=['GET', 'POST'])
+@app.route('/save-meal', methods=['GET'])
 @login_required
 @account_complete
 def save_calories():
@@ -316,7 +317,7 @@ def show_calories(time_frame=None):
 
 
 
-@app.route('/show-weight/', methods=['GET', 'POST'])
+@app.route('/show-weight', methods=['GET', 'POST'])
 @login_required
 @account_complete
 def show_weight(time_frame=None):

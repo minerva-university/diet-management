@@ -53,7 +53,7 @@ def test_meals():
 
     return meals
 
-def test_choose_meals_for_user(test_user, test_meals):
+def test_choose_meals_for_user(test_client, test_user, test_meals):
     user_calories = UserCalories(user_id=test_user.id, calories=2000)
     db.session.add(user_calories)
     db.session.commit()
