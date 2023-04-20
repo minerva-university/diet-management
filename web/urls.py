@@ -12,6 +12,10 @@ from functools import wraps
 from flask_mail import Message
 
 def account_complete(f):
+    """
+    This function is used to check if the user has completed their account details. If they haven't, they'll be 
+    redirected to the finish_account page.
+    """
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if current_user.is_authenticated:
@@ -23,11 +27,18 @@ def account_complete(f):
 
 @app.route('/')
 def index():
+    """
+    This function is used to render the index page.
+    """
     return render_template('index.html')
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    """
+    This function is used to render the register page and handle the registration form.
+    It then redirects the user to the login page.
+    """
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = RegistrationForm()
@@ -42,6 +53,9 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """
+    This function is used to render the login page and handle the login form.
+    """
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = LoginForm()
@@ -68,6 +82,9 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
+    """
+    This function is used to log the user out.
+    """
     logout_user()
     return redirect(url_for('index'))
 
@@ -75,6 +92,9 @@ def logout():
 @app.route('/finish-account', methods=['GET', 'POST'])
 @login_required
 def finish_account():
+    """
+    This function is used to render the finish_account page and get the calories for the user.
+    """
     form = CalculateCalories()
     if form.validate_on_submit():
         current_user.height = form.height.data
@@ -95,6 +115,15 @@ def finish_account():
     return render_template('finish_account.html', title='Complete Account Details', form=form)
 
 def save_picture(form_picture):
+    """
+    This function is used to save the user's profile picture.
+
+    Params:
+        form_picture: the picture that the user has uploaded
+
+    Returns:
+        picture_fn: the name of the picture that has been saved
+    """
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_fn = random_hex + f_ext
@@ -109,6 +138,9 @@ def save_picture(form_picture):
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
+    """
+    This function is used to render the account page and handle the update account form.
+    """
     image_file = url_for('static', filename='images/' + current_user.image_file)
     form = UpdateAccountForm()
     if form.validate_on_submit():
@@ -154,7 +186,7 @@ def calculate_calories(current_user):
     """
     Calculates the calories needed for the user based on their activity level and goal
 
-    Parameters:
+    Params:
         current_user (User): The user object
     
     Returns:
@@ -191,6 +223,9 @@ def calculate_calories(current_user):
 @login_required
 @account_complete
 def get_calories():
+    """
+    This function is used to render the get calories page and calculate the calories needed for the user.
+    """
     calories = calculate_calories(current_user)
     if UserCalories.query.filter_by(user_id=current_user.id).first():
         UserCalories.query.filter_by(user_id=current_user.id).delete()
@@ -204,6 +239,10 @@ def get_calories():
 @login_required
 @account_complete
 def get_meals():
+    """
+    This function is used to render the get meals page and choose meals for the user.
+    It then redirects the user to the show meals page.
+    """
     if not UserCalories.query.filter_by(user_id=current_user.id).first():
         return redirect(url_for('get_calories'))
     breakfast_meal, lunch_meal, dinner_meal = choose_meals_for_user(current_user.id)
@@ -234,8 +273,10 @@ def get_meals():
 @login_required
 @account_complete
 def show_meals():
+    """
+    This function is used to show the meals chosen for the user.
+    """
     if UserCurrentDiet.query.filter_by(user_id=current_user.id).first():
-        # print("I am there")
         user_current_diet = UserCurrentDiet.query.filter_by(user_id=current_user.id).first()
         user_current_meals = UserCurrentDietMeals.query.filter_by(user_current_diet_id=user_current_diet.id).all()
         meals = []
@@ -269,6 +310,9 @@ def show_meals():
 @login_required
 @account_complete
 def save_calories():
+    """
+    This function is used to save the calories chosen by the user for a specific diet.
+    """
     user_current_diet = UserCurrentDiet.query.filter_by(user_id=current_user.id).first()
     calories = DietCalories.query.filter_by(user_current_diet_id=user_current_diet.id).first()
 
@@ -283,10 +327,9 @@ def save_calories():
 @login_required
 @account_complete
 def show_calories(time_frame=None):
-    """ 
-    Use the results of the past 1 week for the default visualization, 
-    but also show the dropdown form to allow the user to select a different time range. 
-    This has values for 1 week, 2 weeks, 3 weeks, and 1 month
+    """
+    This function is used to show the calorie intake for the user over time.
+    The time has a default value of 1 week, but the user can also select 2 weeks, 3 weeks, or 1 month.
     """
     form = CaloriesTimeFilterForm()
     if form.validate_on_submit():
@@ -320,10 +363,10 @@ def show_calories(time_frame=None):
 @login_required
 @account_complete
 def show_weight(time_frame=None):
-    """ 
-    Use the results of the past month for the default visualization, 
-    but also show the dropdown form to allow the user to select a different time range. 
-    This has values for 1 week, 2 weeks, 3 weeks, 1 month, 3 months, 6 months, 1 year.
+    """
+    This function is used to show the weight of the user over time.
+    The time has a default value of 1 month, but the user can also select 1 week, 2 weeks, 
+    3 weeks, 3 months, 6 months, or 1 year.
     """
     form = WeightTimeFilterForm()
     if form.validate_on_submit():
@@ -358,6 +401,15 @@ def show_weight(time_frame=None):
 
 
 def send_reset_email(user):
+    """
+    This function is used to send an email to the user with a link to reset their password.
+
+    Params:
+        user: The user object that is requesting a password reset.
+
+    Returns:
+        None
+    """
     token = user.get_reset_token()
     msg = Message('Password Reset Request', sender = "mealmindy@proton.me", recipients = [user.email])
 
@@ -367,6 +419,9 @@ def send_reset_email(user):
 
 @app.route('/reset-password', methods=['GET', 'POST'])
 def reset_request():
+    """
+    This function is used to send an email to the user with a link to reset their password.
+    """
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = RequestResetForm()
@@ -379,6 +434,15 @@ def reset_request():
 
 @app.route('/reset-password/<token>', methods=['GET', 'POST'])
 def reset_token(token):
+    """
+    This function is used to reset the password of the user.
+
+    Params:
+        token: The token that was sent to the user's email.
+
+    Returns:
+        None
+    """
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     user = User.verify_reset_token(token)

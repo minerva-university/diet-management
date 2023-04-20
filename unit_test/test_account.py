@@ -5,6 +5,9 @@ from web.urls import calculate_calories
 
 @pytest.fixture
 def test_client():
+    """
+    Create a test client for the app
+    """
     app.config['TESTING'] = True
     app.config['WTF_CSRF_ENABLED'] = False
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -21,12 +24,23 @@ def test_client():
 
 @pytest.fixture
 def test_user():
+    """
+    Create a test user
+
+    Returns: User
+    """
     user = User(name='TestUser', email='testuser@example.com', password='testpassword')
     db.session.add(user)
     db.session.commit()
     return user
 
 def test_calculate_calories(test_user):
+    """
+    Test the calculate_calories function
+
+    Params:
+        test_user: User
+    """
     test_user.gender = 'Male'
     test_user.age = 30
     test_user.height = 180
@@ -38,6 +52,12 @@ def test_calculate_calories(test_user):
     assert calories == 2237
 
 def test_account_calories_update(test_user):
+    """
+    Test that the calories are updated correctly when the user updates their weight, goal or activity level
+
+    Params:
+        test_user: User
+    """
     test_user.gender = 'Male'
     test_user.age = 30
     test_user.height = 180
@@ -47,6 +67,9 @@ def test_account_calories_update(test_user):
     db.session.commit()
 
     with app.app_context():
+        """
+        Test that the calories are calculated correctly
+        """
         calories = calculate_calories(test_user)
         UserCalories.query.filter_by(user_id=test_user.id).delete()
         user_calories = UserCalories(calories=calories, user_id=test_user.id)
@@ -72,6 +95,9 @@ def test_account_calories_update(test_user):
         assert calories != updated_calories_from_db
 
 def test_account_weight_history(test_user):
+    """
+    Test that the weight history is updated correctly when the user updates their weight
+    """
     test_user.height = 180
     test_user.weight = 80
     db.session.commit()
