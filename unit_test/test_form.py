@@ -4,6 +4,7 @@ from web.models import User
 from web.forms import LoginForm
 
 class TestLoginForm(LoginForm):
+    __test__ = False
     class Meta:
         csrf = False
 
@@ -17,7 +18,7 @@ def mock_user_query(monkeypatch):
     monkeypatch.setattr(User, "query", mock_query)
 
 def mock_first():
-    user = User(id=1, username="testuser", email="test@example.com")
+    user = User(id=1, name="testuser", email="test@example.com")
     user.set_password("testpassword")
     return user
 
