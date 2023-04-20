@@ -192,6 +192,8 @@ def calculate_calories(current_user):
 @account_complete
 def get_calories():
     calories = calculate_calories(current_user)
+    if UserCalories.query.filter_by(user_id=current_user.id).first():
+        UserCalories.query.filter_by(user_id=current_user.id).delete()
     user_calories = UserCalories(calories=calories, user_id=current_user.id)
     db.session.add(user_calories)
     db.session.commit()
