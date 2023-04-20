@@ -290,16 +290,16 @@ def show_calories(time_frame=None):
     if form.validate_on_submit():
         time_frame = form.time.data
     if time_frame is None:
-        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).order_by(UserCaloriesOverTime.id.desc()).limit(7).all()
+        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).filter(UserCaloriesOverTime.created_at>=datetime.date.today()-datetime.timedelta(days=7)).all()
         time_frame = '1 Week'
     elif time_frame == '1 Week':
-        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).order_by(UserCaloriesOverTime.id.desc()).limit(7).all()
+        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).filter(UserCaloriesOverTime.created_at>=datetime.date.today()-datetime.timedelta(days=7)).all()
     elif time_frame == '2 Weeks':
-        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).order_by(UserCaloriesOverTime.id.desc()).limit(14).all()
+        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).filter(UserCaloriesOverTime.created_at>=datetime.date.today()-datetime.timedelta(days=14)).all()
     elif time_frame == '3 Weeks':
-        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).order_by(UserCaloriesOverTime.id.desc()).limit(21).all()
+        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).filter(UserCaloriesOverTime.created_at>=datetime.date.today()-datetime.timedelta(days=21)).all()
     elif time_frame == '1 Month':
-        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).order_by(UserCaloriesOverTime.id.desc()).limit(30).all()
+        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).filter(UserCaloriesOverTime.created_at>=datetime.date.today()-datetime.timedelta(days=30)).all()
 
     labels = []
     values = []
