@@ -64,4 +64,3 @@ def test_choose_meals_for_user(test_user, test_meals):
     assert breakfast_meal.name in mock_meals_names, "Breakfast meal not found in the test meals"
     assert lunch_meal.name in mock_meals_names, "Lunch meal not found in the test meals"
     assert dinner_meal.name in mock_meals_names, "Dinner meal not found in the test meals"
-
