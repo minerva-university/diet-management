@@ -6,6 +6,9 @@ from .models import User
 from flask_login import current_user
 
 class RegistrationForm(FlaskForm):
+    """
+    Form to allow the user to register
+    """
     name = StringField('Name', validators=[DataRequired(), Length(min=2, max=20)])
     email = EmailField('Email', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
@@ -13,16 +16,25 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Sign Up')
         
     def validate_email(self, email):
+        """
+        Check if the email is already taken by another user
+        """
         user = User.query.filter_by(email=email.data).first()
         if user:
             raise ValidationError('That email is taken. Please choose a different one.')
 
 class LoginForm(FlaskForm):
+    """
+    Form to allow the user to login
+    """
     email = EmailField('Email', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
 
 class UpdateAccountForm(FlaskForm):
+    """
+    Form to allow the user to update their account details
+    """
     name = StringField('Name', validators=[DataRequired(), Length(min=2, max=20)])
     email = EmailField('Email', validators=[DataRequired()])
     picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
@@ -39,12 +51,18 @@ class UpdateAccountForm(FlaskForm):
     submit = SubmitField('Update')
         
     def validate_email(self, email):
+        """
+        Check if the email is already taken by another user
+        """
         if email.data != current_user.email:
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('That email is taken. Please choose a different one.')
 
 class CalculateCalories(FlaskForm):
+    """
+    Form to allow the user to calculate their daily calorie intake
+    """
     height = FloatField('Height (cm)', validators=[DataRequired(), NumberRange(min=0.0, max=300, message='Height must be between 0.0 and 300')])
     weight = FloatField('Weight (kg)', validators=[DataRequired(), NumberRange(min=0.0, max=300.0, message='Weight must be between 0.0 and 300.0')])
     age = IntegerField('Age', validators=[DataRequired(), NumberRange(min=0, max=150, message='Age must be between 0 and 150')])
@@ -58,6 +76,9 @@ class CalculateCalories(FlaskForm):
     submit = SubmitField('Submit')
 
 class RequestResetForm(FlaskForm):
+    """
+    Form to allow the user to request a password reset
+    """
     email = EmailField('Email', validators=[DataRequired()])
     submit = SubmitField('Request Password Reset')
 
@@ -67,6 +88,9 @@ class RequestResetForm(FlaskForm):
             raise ValidationError('There is no account with that email. You must register first.')
         
 class ResetPasswordForm(FlaskForm):
+    """
+    Form to allow the user to reset their password
+    """
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset Password')

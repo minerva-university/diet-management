@@ -5,6 +5,9 @@ from web.meal_planner import choose_meals_for_user
 
 @pytest.fixture
 def test_client():
+    """
+    Create a test client for the app.
+    """
     app.config['TESTING'] = True
     app.config['WTF_CSRF_ENABLED'] = False
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -21,6 +24,12 @@ def test_client():
 
 @pytest.fixture
 def test_user():
+    """
+    Create a test user.
+
+    Returns:
+        User
+    """
     user = User(name='TestUser', email='testuser@example.com', password='testpassword')
     db.session.add(user)
     db.session.commit()
@@ -28,6 +37,12 @@ def test_user():
 
 @pytest.fixture
 def test_meals():
+    """
+    Create test meals.
+
+    Returns:
+        List[Meals]
+    """
     meals = [
         Meals(name='Breakfast Meal 1', calories=100, serving_size=1, recipe='Recipe'),
         Meals(name='Breakfast Meal 2', calories=200, serving_size=1, recipe='Recipe'),
@@ -54,6 +69,16 @@ def test_meals():
     return meals
 
 def test_choose_meals_for_user(test_user, test_meals):
+    """
+    Test that the choose_meals_for_user function returns the correct meals.
+
+    Params:
+        test_user: User
+        test_meals: List[Meals]
+
+    Returns:
+        None
+    """
     user_calories = UserCalories(user_id=test_user.id, calories=2000)
     db.session.add(user_calories)
     db.session.commit()

@@ -112,3 +112,4 @@ venv.bak/
 *.DS_Store
 
 test_insert.py
+docker-compose.yml

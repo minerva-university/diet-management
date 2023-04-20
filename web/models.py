@@ -4,10 +4,22 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 @login_manager.user_loader
 def load_user(user_id):
+    """
+    This function is required by flask-login to load a user from the database
+
+    Params:
+        user_id (int): The user's id
+
+    Returns:
+        The user object
+    """
     return User.query.get(int(user_id))
 
     
 class User(db.Model, UserMixin):
+    """
+    This class represents a User object in the database
+    """
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.Text, nullable=False)
@@ -20,18 +32,35 @@ class User(db.Model, UserMixin):
     activity_level = db.Column(db.Enum('Sedentary', 'Lightly Active', 'Moderately Active', 'Very Active', 'Extra Active'), nullable=True)
     gender = db.Column(db.Enum('Male', 'Female'), nullable=True)
     goal = db.Column(db.Enum('Lose Weight', 'Gain Weight', 'Maintain Weight'), nullable=True)
-    # activity_level = db.Column(db.Text, nullable=False, checkin=('sedentary', 'lightly active', 'moderately active', 'very active', 'extra active'))
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
     is_active = db.Column(db.Boolean, default=True, nullable=False)
     weights = db.relationship('UserWeightOverTime', backref='user', lazy=True)
 
     def get_reset_token(self, expires_sec=1800):
+        """
+        This function generates a token that expires in 30 minutes by default, but can be changed
+
+        Params:
+            expires_sec (int): The number of seconds the token will expire in
+
+        Returns:
+            The token
+        """
         s = Serializer(app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'user_id': self.id}).decode('utf-8')
 
     @staticmethod
     def verify_reset_token(token):
+        """
+        This function verifies a token
+
+        Params:
+            token (str): The token to verify
+
+        Returns:
+            The user object
+        """
         s = Serializer(app.config['SECRET_KEY'])
         try:
             user_id = s.loads(token)['user_id']
@@ -55,6 +84,9 @@ class User(db.Model, UserMixin):
     
 
 class UserWeightOverTime(db.Model):
+    """
+    This class is used to track a user's weight over time
+    """
     __tablename__ = 'user_bmi_over_time'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -65,6 +97,9 @@ class UserWeightOverTime(db.Model):
         return f"UserWeightOverTime('{self.id}', '{self.bmi}')"
     
 class UserCaloriesOverTime(db.Model):
+    """
+    This class is used to track a user's calorie intake over time
+    """
     __tablename__ = 'user_calories_over_time'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -76,6 +111,9 @@ class UserCaloriesOverTime(db.Model):
 
 
 class UserCalories(db.Model):
+    """
+    This class is used to track the recommended calories for a user
+    """
     __tablename__ = 'user_calories'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -88,6 +126,9 @@ class UserCalories(db.Model):
         return f"UserCalories('{self.id}', '{self.calories}')"
 
 class UserHistory(db.Model):
+    """
+    This class is used to track a user's history
+    """
     __tablename__ = 'user_history'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -104,6 +145,9 @@ class UserHistory(db.Model):
         return f"UserHistory('{self.id}', '{self.weight}', '{self.height}', '{self.age}', '{self.activity_level}')"
 
 class Meals(db.Model):
+    """
+    This class is used to represent a meal
+    """
     __tablename__ = 'meals'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.Text, nullable=False)
@@ -117,6 +161,9 @@ class Meals(db.Model):
         return f"Meals('{self.name}', '{self.calories}')"
 
 class MealsPhotos(db.Model):
+    """
+    This class is used to represent a meal's photo
+    """
     __tablename__ = 'meals_photos'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     meal_id = db.Column(db.Integer, db.ForeignKey('meals.id'), nullable=False)
@@ -129,6 +176,9 @@ class MealsPhotos(db.Model):
         return f"MealsPhotos(''{self.id}', {self.photo}')"
 
 class MealsLabel(db.Model):
+    """
+    This class is used to represent a meal's label
+    """
     __tablename__ = 'meals_label'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     meal_id = db.Column(db.Integer, db.ForeignKey('meals.id'), nullable=False)
@@ -141,6 +191,9 @@ class MealsLabel(db.Model):
         return f"MealsLabel('{self.label}')"
 
 class UserCurrentDiet(db.Model):
+    """
+    This class is used to represent a user's current diet
+    """
     __tablename__ = 'user_current_diet'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -152,6 +205,9 @@ class UserCurrentDiet(db.Model):
         return f"UserCurrentDiet('{self.id}')"
 
 class UserCurrentDietMeals(db.Model):
+    """
+    This class is used to represent a user's current diet's meals
+    """
     __tablename__ = 'user_current_diet_meals'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_current_diet_id = db.Column(db.Integer, db.ForeignKey('user_current_diet.id'), nullable=False)
@@ -166,6 +222,9 @@ class UserCurrentDietMeals(db.Model):
         return f"UserCurrentDietMeals('{self.id}', '{self.meal_id}')"
 
 class DietCalories(db.Model):
+    """
+    This class is used to represent the calories of a specific diet
+    """
     __tablename__ = 'diet_calories'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_current_diet_id = db.Column(db.Integer, db.ForeignKey('user_current_diet.id'), nullable=False)
