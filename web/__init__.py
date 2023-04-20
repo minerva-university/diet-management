@@ -9,7 +9,7 @@ from flask_mail import Mail
 load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///web.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql://cs162_user:cs162_password@db/cs162')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
