@@ -78,9 +78,11 @@ Start the server by running:
 
 ```bash
 python3 run.py
-if you are on windows:
-for only one time of initializing the db
 ```
+
+if you are on windows:
+
+for only one time of initializing the db
 
 ```bash
 python3 insert_meals.py
