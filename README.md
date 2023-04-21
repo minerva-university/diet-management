@@ -146,3 +146,12 @@ source venv_unit/bin/activate
 pip install -r requirements.txt
 pytest unit_test
 ```
+
+For windows:
+
+```bash
+python3 -m venv venv_unit
+venv_unit/bin/activate
+pip install -r requirements.txt
+pytest unit_test
+```
