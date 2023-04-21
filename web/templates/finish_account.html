@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-    <form method="POST" action="">
+    <form method="POST" action="{{ url_for('finish_account') }}">
         {{ form.hidden_tag() }}
         <fieldset class="form-group">
             <div style="text-align:center; font-size:30px;">

@@ -1,31 +1,31 @@
 .mt-4 {
-    margin-top: 0rem !important;
-    margin-left: 0px !important;
-    margin-right: 0px !important;
-    width: 1600px;
-    height: 100vh;
-    background-image: url("../static/images/landing_page_pic.jpg");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center;
-    opacity: 0.8;
-  }
-  
-  .container {
-    max-width: 1440px;
-  }
-  .card {
-    width: 680px !important;
-    margin-left: 350px;
-    margin-top: 45px;
-  }
-  .btn-primary {
-    background-color: orange;
-    border-color: orange;
-  }
-  .btn:hover {
-    background-color: #f26f10;
-  }
-  .card-header {
-    background-color: #f38536;
-  }
+  margin-top: 0rem !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  width: 1600px;
+  height: 100vh;
+  background-image: url("../static/images/bg_pic.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  opacity: 0.8;
+}
+
+.container {
+  max-width: 1440px;
+}
+.card {
+  width: 680px !important;
+  margin-left: 350px;
+  margin-top: 45px;
+}
+.btn-primary {
+  background-color: orange;
+  border-color: orange;
+}
+.btn:hover {
+  background-color: #f26f10;
+}
+.card-header {
+  background-color: #f38536;
+}
