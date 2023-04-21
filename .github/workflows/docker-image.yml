@@ -12,10 +12,14 @@ on:
 jobs:
   run-tests:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        
+      - name: Run some steps
+        run: echo "Running the second workflow after the first workflow completes successfully"
 
       - name: Install Docker Compose
         run: |
