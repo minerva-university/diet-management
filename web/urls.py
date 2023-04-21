@@ -10,7 +10,6 @@ from flask_login import login_user, current_user, logout_user, login_required
 from web.meal_planner import choose_meals_for_user
 from functools import wraps
 from flask_mail import Message
-from logger import info_logger, error_logger
 
 def account_complete(f):
     @wraps(f)
@@ -19,7 +18,6 @@ def account_complete(f):
             if not (current_user.height and current_user.weight and current_user.age and current_user.goal and current_user.activity_level and current_user.gender):
                 flash('Please complete your account details.', 'warning')
                 return redirect(url_for('finish_account'))
-        info_logger.info("User authenticated")
         return f(*args, **kwargs)
     return decorated_function
 
@@ -32,15 +30,12 @@ def index():
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
-    else:
-        info_logger.info("User not authenticated")
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(name=form.name.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
-        info_logger.info("User Information Comitted on Data Base")
         flash(f'Account created for {form.name.data}!', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form, legend='Sign Up')
@@ -48,7 +43,6 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        info_logger.info("Current user authenticated")
         return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
@@ -75,7 +69,6 @@ def login():
 @login_required
 def logout():
     logout_user()
-    info_logger.info("User logged out")
     return redirect(url_for('index'))
 
 # finish setting up the account
@@ -99,7 +92,6 @@ def finish_account():
         db.session.add(weight_over_time)
 
         db.session.commit()
-        info_logger.info("Account initiated with success")
         flash('Your account has been initialized!', 'success')
         return redirect(url_for('get_calories'))
     return render_template('finish_account.html', title='Complete Account Details', form=form)
@@ -296,20 +288,26 @@ def show_calories(time_frame=None):
     but also show the dropdown form to allow the user to select a different time range. 
     This has values for 1 week, 2 weeks, 3 weeks, and 1 month
     """
+    
+    # the user doesn't have any meals chosen yet, so redirect them to the get meals page
+    if not UserCalories.query.filter_by(user_id=current_user.id).first():
+        flash('Please choose your meals first', 'danger')
+        return redirect(url_for('show-meals'))
+    
     form = CaloriesTimeFilterForm()
     if form.validate_on_submit():
         time_frame = form.time.data
     if time_frame is None:
-        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).order_by(UserCaloriesOverTime.id.desc()).limit(7).all()
         time_frame = '1 Week'
+        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).filter(UserCaloriesOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=7)).all()
     elif time_frame == '1 Week':
-        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).order_by(UserCaloriesOverTime.id.desc()).limit(7).all()
+        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).filter(UserCaloriesOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=7)).all()
     elif time_frame == '2 Weeks':
-        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).order_by(UserCaloriesOverTime.id.desc()).limit(14).all()
+        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).filter(UserCaloriesOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=14)).all()
     elif time_frame == '3 Weeks':
-        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).order_by(UserCaloriesOverTime.id.desc()).limit(21).all()
+        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).filter(UserCaloriesOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=21)).all()
     elif time_frame == '1 Month':
-        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).order_by(UserCaloriesOverTime.id.desc()).limit(30).all()
+        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).filter(UserCaloriesOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=30)).all()
 
     labels = []
     values = []
@@ -318,6 +316,9 @@ def show_calories(time_frame=None):
         values.append(cl.calories)
 
     recommended_intake = UserCalories.query.filter_by(user_id=current_user.id).first().calories
+    if len(values) == 0:
+        flash('You have not entered any calories in this period', 'danger')
+        return redirect(url_for('show-calories'))
     averaged = round(sum(values) / len(values))
 
     return render_template('calories_over_time.html', title='Calories Over Time', time_frame=time_frame, labels=labels, values=values, form=form, recommended_intake=recommended_intake, averaged=averaged)
