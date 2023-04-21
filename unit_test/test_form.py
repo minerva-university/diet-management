@@ -1,6 +1,6 @@
 import pytest
 from web import app, db
-from web.models import User
+from web.models.User import User
 from web.forms import LoginForm
 
 class TestLoginForm(LoginForm):

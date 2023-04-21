@@ -1,13 +1,21 @@
+import os
+# Set the DATABASE_URL environment variable to use SQLite test database
+os.environ['DATABASE_URL'] = 'sqlite:///test.db'
 import pytest
 from web import app, db
-from web.models import User, UserWeightOverTime, UserCalories
+# from web.models import User, UserWeightOverTime, UserCalories
+from web.models.User import User 
+from web.models.UserWeightOverTime import UserWeightOverTime 
+from web.models.UserCalories import UserCalories 
 from web.urls import calculate_calories
 
 @pytest.fixture
 def test_client():
     app.config['TESTING'] = True
     app.config['WTF_CSRF_ENABLED'] = False
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+    # Update the SQLALCHEMY_DATABASE_URI configuration
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+
     test_client = app.test_client()
 
     with app.app_context():
@@ -18,6 +26,7 @@ def test_client():
     with app.app_context():
         db.session.remove()
         db.drop_all()
+
 
 @pytest.fixture
 def test_user():

@@ -5,12 +5,22 @@ from PIL import Image
 from flask import render_template, request, redirect, url_for, flash
 from web import app, db, bcrypt, mail
 from web.forms import RegistrationForm, LoginForm, UpdateAccountForm, CalculateCalories, RequestResetForm, ResetPasswordForm, WeightTimeFilterForm, CaloriesTimeFilterForm
-from web.models import User, UserCalories, UserCurrentDiet, UserCurrentDietMeals, Meals, MealsPhotos, MealsLabel, DietCalories, UserWeightOverTime, UserCaloriesOverTime
+# from web.models import User, UserCalories, UserCurrentDiet, UserCurrentDietMeals, Meals, MealsPhotos, MealsLabel, DietCalories, UserWeightOverTime, UserCaloriesOverTime
 from flask_login import login_user, current_user, logout_user, login_required
 from web.meal_planner import choose_meals_for_user
 from functools import wraps
 from flask_mail import Message
 from logger import info_logger, error_logger
+from .models.User import User 
+from .models.UserCalories import UserCalories 
+from .models.UserCurrentDiet import UserCurrentDiet
+from .models.UserCurrentDietMeals import UserCurrentDietMeals
+from .models.Meals import Meals
+from .models.MealsPhotos import MealsPhotos
+from .models.MealsLabel import MealsLabel
+from .models.DietCalories import DietCalories
+from .models.UserWeightOverTime import UserWeightOverTime
+from .models.UserCaloriesOverTime import UserCaloriesOverTime
 
 def account_complete(f):
     @wraps(f)
