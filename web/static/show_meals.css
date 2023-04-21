@@ -1,20 +1,9 @@
 body{
     min-width: 100vh;
-    margin: 0;
+    margin: auto;
+    padding-left: 50px;
 }
 
-.mt-4 {
-  margin-top: 0 !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-  max-width: 1640px;
-  min-height: 100vh;
-  background-image: url("../static/images/bg_pic.jpg");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-position: center;
-  opacity: 1;
-}
 * {
     box-sizing: border-box;
   }
@@ -27,13 +16,12 @@ body{
   .column {
     float: left;
     width: 33%;
-    padding: 0 15px;
+    padding: 0 10px;
   }
   
   /* Remove extra left and right margins, due to padding */
-  .row {margin-left: 60px;
-        width: 1000px;
-      }
+  .row {margin: 0;
+width: 1000px;}
   
   /* Clear floats after the columns */
   .row:after {
