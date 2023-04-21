@@ -95,7 +95,6 @@ def test_show_meals_route(client, test_meals):
         # Test case 2: User has UserCurrentDiet record
         client.get('/get-meals')
         response = client.get('/show-meals')
-        print(response.data)
         assert response.status_code == 200
 
 # Test cases for /save-meal route
