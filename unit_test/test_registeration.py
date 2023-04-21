@@ -15,7 +15,6 @@ def client():
         db.create_all()
 
     yield test_client
-
     with app.app_context():
         db.session.remove()
         db.drop_all()
@@ -89,7 +88,6 @@ def test_finish_account(client):
     test_user = create_test_user()
     with client.session_transaction() as sess:
         sess['user_id'] = test_user.id
-
     client.post('/login', data=dict(email = 'test@example.com',
                                     password='test_password'), follow_redirects=True)
     # Test GET request to 'finish_account' route
@@ -105,7 +103,6 @@ def test_finish_account(client):
     assert response.status_code == 200
     # Assuming 'This field is required' is part of the form validation error messages
     assert b'This field is required' in response.data
-
     # Test POST request to 'finish_account' route with valid data
     response = client.post('/finish-account', 
                            data=dict(height = 170, weight=60, age=22,
