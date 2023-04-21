@@ -8,6 +8,10 @@ For turning it off
 docker stack rm diet-swarm
 docker swarm leave --force
 ```
+Run Tests
+```
+docker-compose run --build test; docker-compose down
+```
 # Welcome to CS162 Final Project
 
 ![template ci](https://github.com/minerva-schools/template-cs162/actions/workflows/ci.yaml/badge.svg)
