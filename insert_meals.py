@@ -1,5 +1,6 @@
 from web import db
-from web.models import Meals, MealsLabel
+from web.models.Meals import Meals 
+from web.models.MealsLabel import MealsLabel
 
 
 # Your models here (Meals, MealsPhotos, MealsLabel)
