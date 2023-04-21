@@ -21,7 +21,7 @@ Virtual environment is a key component in ensuring that the application is confi
 - Pip 3
 
 ```bash
- brew install python3
+brew install python3
 ```
 
 Pip3 is installed with Python3
@@ -31,7 +31,7 @@ Pip3 is installed with Python3
 To install virtualenv via pip run:
 
 ```bash
- pip3 install virtualenv
+pip3 install virtualenv
 ```
 
 #### Usage
@@ -39,37 +39,37 @@ To install virtualenv via pip run:
 Creation of virtualenv:
 
 ```bash
-     virtualenv -p python3 venv
+virtualenv -p python3 venv
 ```
 
 If the above code does not work, you could also do
 
 ```bash
-     python3 -m venv venv
+python3 -m venv venv
 ```
 
 To activate the virtualenv:
 
 ```bash
-     source venv/bin/activate
+source venv/bin/activate
 ```
 
 Or, if you are **using Windows** - [reference source:](https://stackoverflow.com/questions/8921188/issue-with-virtualenv-cannot-activate)
 
 ```bash
-     venv\Scripts\activate
+venv\Scripts\activate
 ```
 
 To deactivate the virtualenv (after you finished working):
 
 ```bash
-     deactivate
+deactivate
 ```
 
 Install dependencies in virtual environment:
 
 ```bash
-     pip3 install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 ### Run Application
@@ -77,7 +77,7 @@ Install dependencies in virtual environment:
 Start the server by running:
 
 ```bash
-     python3 run.py
+python3 run.py
 if you are on windows:
 for only one time of initializing the db
 ```
@@ -135,8 +135,8 @@ All environment variables are stored within the `.env` file and loaded with dote
 To run the unit tests use the following commands:
 
 ```bash
-     python3 -m venv venv_unit
-     source venv_unit/bin/activate
-     pip install -r requirements.txt
-     pytest unit_test
+python3 -m venv venv_unit
+source venv_unit/bin/activate
+pip install -r requirements.txt
+pytest unit_test
 ```
