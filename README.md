@@ -130,7 +130,6 @@ All environment variables are stored within the `.env` file and loaded with dote
 
 **Never** commit your local settings to the Github repository!
 
-
 ### Unit Tests
 
 To run the unit tests use the following commands:
