@@ -4,6 +4,7 @@ from wtforms import StringField, EmailField, PasswordField, SubmitField, Integer
 from wtforms.validators import DataRequired, Length, EqualTo, ValidationError, NumberRange, Email
 from .models import User
 from flask_login import current_user
+from logger import info_logger, error_logger
 
 class RegistrationForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(min=2, max=20)])
@@ -15,12 +16,15 @@ class RegistrationForm(FlaskForm):
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user:
+            error_logger.info("The email already exists") 
             raise ValidationError('That email is taken. Please choose a different one.')
+            
 
 class LoginForm(FlaskForm):
     email = EmailField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
+    info_logger.info("Login Validated")
 
 class UpdateAccountForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(min=2, max=20)])
@@ -42,7 +46,11 @@ class UpdateAccountForm(FlaskForm):
         if email.data != current_user.email:
             user = User.query.filter_by(email=email.data).first()
             if user:
+                info_logger.info("The email aready exists")
                 raise ValidationError('That email is taken. Please choose a different one.')
+
+        else:
+            info_logger.info("Valid email")
 
 class CalculateCalories(FlaskForm):
     height = FloatField('Height (cm)', validators=[DataRequired(), NumberRange(min=0.0, max=300, message='Height must be between 0.0 and 300')])
@@ -65,6 +73,8 @@ class RequestResetForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is None:
             raise ValidationError('There is no account with that email. You must register first.')
+        else:
+            info_logger.info("Email Validated")
         
 class ResetPasswordForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
