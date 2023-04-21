@@ -1,7 +1,7 @@
 version: "3.2"
 services:
   web:
-    image: diet
+    image: dietmanagment/diet
     depends_on:
       - db
     deploy:
@@ -42,6 +42,14 @@ services:
         condition: "on-failure"
     ports:
       - 8080:8080
+    networks:
+      - webnet
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    depends_on:
+      - web
     networks:
       - webnet
 networks:

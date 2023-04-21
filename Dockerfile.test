@@ -1,0 +1,7 @@
+FROM python:3.8
+WORKDIR /test
+COPY requirements-integration.txt .
+RUN pip install -r requirements-integration.txt
+# Copy the entire integration_test directory into the container
+COPY integration_test/ .
+CMD pytest
