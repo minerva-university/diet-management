@@ -7,7 +7,6 @@
   color: #f26f10 !important;
   font-weight: bold;
   font-size: 1.5rem;
-  margin-right: 150px !important;
 }
 .navbar-text {
   color: #f26f10 !important;
@@ -49,7 +48,7 @@
   margin-bottom: 20px;
 }
 .alert-success {
-  width: 1440px !important;
+  width: 100% !important;
   margin-left: 0px !important;
 }
 .alert {

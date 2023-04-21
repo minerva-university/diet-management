@@ -4,9 +4,9 @@
   href="{{url_for('static', filename='show_meals.css')}}"
 />
 <h2 class="mb-4">Here Are Your Meals</h2>
-<div class="row">
+<div class="row flex-wrap">
   {% for label, meal, serving_factor in zip( labels, meals, servings) %}
-  <div class="column">
+  <div class="col-md-4">
     <div class="card">
       <h4 class="card-title">{{label.label}}</h4>
       <h5 class="card-title">{{ meal.name }}</h5>
@@ -20,16 +20,20 @@
   </div>
   {% endfor %}
 </div>
-<h3>Total Diet Calories: {{ round(diet_calories.calories) }}</h3>
-<!-- Added button to generate another diet directing to get_meals -->
-<a class="btn btn-primary" href="{{ url_for('get_meals') }}"
-  >Generate Another Diet</a
->
-<!-- If they choose diet generated, let the system know by pressing a button. This is useful to track the calorie intake-->
-<a
-  class="btn btn-secondary"
-  href="{{ url_for('save_calories') }}"
-  style="margin-left: 10px"
-  >Confirm this diet</a
->
+<div class="total-diet-calories d-flex align-items-center">
+  <h3>Total Diet Calories: {{ round(diet_calories.calories) }}</h3>
+  <div class="buttons">
+    <!-- Added button to generate another diet directing to get_meals -->
+    <a class="btn btn-primary" href="{{ url_for('get_meals') }}"
+      >Generate Another Diet</a
+    >
+    <!-- If they choose diet generated, let the system know by pressing a button. This is useful to track the calorie intake-->
+    <a
+      class="btn btn-secondary"
+      href="{{ url_for('save_calories') }}"
+      style="margin-left: 10px"
+      >Confirm this diet</a
+    >
+  </div>
+</div>
 {% endblock %}
