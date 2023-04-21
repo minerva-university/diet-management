@@ -1,6 +1,7 @@
 from web import db
 from web.models import Meals, MealsLabel
 
+
 # Your models here (Meals, MealsPhotos, MealsLabel)
 
 def add_meal(name, calories, serving_size, recipe, labels):

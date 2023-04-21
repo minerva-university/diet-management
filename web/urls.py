@@ -5,11 +5,21 @@ from PIL import Image
 from flask import render_template, request, redirect, url_for, flash
 from web import app, db, bcrypt, mail
 from web.forms import RegistrationForm, LoginForm, UpdateAccountForm, CalculateCalories, RequestResetForm, ResetPasswordForm, WeightTimeFilterForm, CaloriesTimeFilterForm
-from web.models import User, UserCalories, UserCurrentDiet, UserCurrentDietMeals, Meals, MealsPhotos, MealsLabel, DietCalories, UserWeightOverTime, UserCaloriesOverTime
 from flask_login import login_user, current_user, logout_user, login_required
 from web.meal_planner import choose_meals_for_user
 from functools import wraps
 from flask_mail import Message
+from logger import info_logger, error_logger
+from .models.User import User 
+from .models.UserCalories import UserCalories 
+from .models.UserCurrentDiet import UserCurrentDiet
+from .models.UserCurrentDietMeals import UserCurrentDietMeals
+from .models.Meals import Meals
+from .models.MealsPhotos import MealsPhotos
+from .models.MealsLabel import MealsLabel
+from .models.DietCalories import DietCalories
+from .models.UserWeightOverTime import UserWeightOverTime
+from .models.UserCaloriesOverTime import UserCaloriesOverTime
 
 def account_complete(f):
     @wraps(f)
@@ -18,6 +28,7 @@ def account_complete(f):
             if not (current_user.height and current_user.weight and current_user.age and current_user.goal and current_user.activity_level and current_user.gender):
                 flash('Please complete your account details.', 'warning')
                 return redirect(url_for('finish_account'))
+        info_logger.info("User authenticated")
         return f(*args, **kwargs)
     return decorated_function
 
@@ -30,12 +41,15 @@ def index():
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
+    else:
+        info_logger.info("User not authenticated")
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(name=form.name.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
+        info_logger.info("User Information Comitted on Data Base")
         flash(f'Account created for {form.name.data}!', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form, legend='Sign Up')
@@ -43,6 +57,7 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
+        info_logger.info("Current user authenticated")
         return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
@@ -69,6 +84,7 @@ def login():
 @login_required
 def logout():
     logout_user()
+    info_logger.info("User logged out")
     return redirect(url_for('index'))
 
 # finish setting up the account
@@ -92,6 +108,7 @@ def finish_account():
         db.session.add(weight_over_time)
 
         db.session.commit()
+        info_logger.info("Account initiated with success")
         flash('Your account has been initialized!', 'success')
         return redirect(url_for('get_calories'))
     return render_template('finish_account.html', title='Complete Account Details', form=form)

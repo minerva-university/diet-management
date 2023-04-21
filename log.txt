@@ -20,3 +20,94 @@
 2023-04-21 14:47:37,912 - Diet_Manager_info - INFO - Data Base constructed
 2023-04-21 14:47:41,158 - Diet_Manager_info - INFO - Login Validated
 2023-04-21 14:47:41,172 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 15:28:43,961 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 15:28:43,990 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 15:28:44,105 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 15:28:44,116 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 16:01:49,234 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 16:01:49,380 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 16:30:07,848 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 16:30:08,017 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 16:31:24,389 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 16:31:24,552 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 16:32:14,666 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 16:32:14,744 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 16:32:14,821 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 16:32:14,841 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 16:51:24,480 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 16:51:24,527 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 16:51:24,662 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 16:51:24,682 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 16:51:49,242 - Diet_Manager_info - INFO - User logged out
+2023-04-21 16:51:52,652 - Diet_Manager_info - INFO - User not authenticated
+2023-04-21 16:52:07,854 - Diet_Manager_info - INFO - User not authenticated
+2023-04-21 16:52:08,213 - Diet_Manager_info - INFO - User Information Comitted on Data Base
+2023-04-21 16:52:20,650 - Diet_Manager_info - INFO - User authenticated
+2023-04-21 16:52:58,610 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 16:52:58,640 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 16:52:58,772 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 16:52:58,792 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 16:53:01,181 - Diet_Manager_info - INFO - User authenticated
+2023-04-21 17:24:59,755 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 17:24:59,845 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 17:27:07,859 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 17:27:16,432 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 17:27:16,571 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 17:28:25,718 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 17:28:25,855 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 17:29:07,374 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 17:30:11,664 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 17:30:19,740 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 17:30:19,909 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 17:33:16,818 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 17:33:16,898 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 17:33:21,135 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 17:33:21,156 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 17:33:26,469 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 17:33:26,508 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 17:33:30,852 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 17:33:30,875 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 17:33:44,502 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 17:33:44,527 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 17:34:10,937 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 17:34:10,966 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 17:34:11,102 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 17:34:11,121 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 17:36:38,611 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 17:36:38,635 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 17:37:08,438 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 17:37:08,462 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 17:37:08,605 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 17:37:08,626 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 17:37:12,342 - Diet_Manager_info - INFO - User authenticated
+2023-04-21 17:37:16,754 - Diet_Manager_info - INFO - User authenticated
+2023-04-21 17:37:32,984 - Diet_Manager_info - INFO - User authenticated
+2023-04-21 17:37:35,783 - Diet_Manager_info - INFO - User authenticated
+2023-04-21 17:37:38,932 - Diet_Manager_info - INFO - User authenticated
+2023-04-21 17:37:38,948 - Diet_Manager_info - INFO - User authenticated
+2023-04-21 17:37:41,501 - Diet_Manager_info - INFO - User authenticated
+2023-04-21 17:37:44,352 - Diet_Manager_info - INFO - User authenticated
+2023-04-21 17:37:51,209 - Diet_Manager_info - INFO - User authenticated
+2023-04-21 17:37:57,033 - Diet_Manager_info - INFO - User authenticated
+2023-04-21 18:14:20,700 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:14:20,733 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:14:20,815 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:14:20,829 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:14:29,539 - Diet_Manager_info - INFO - User logged out
+2023-04-21 18:14:31,664 - Diet_Manager_info - INFO - User not authenticated
+2023-04-21 18:14:51,573 - Diet_Manager_info - INFO - User not authenticated
+2023-04-21 18:15:50,924 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:15:50,941 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:15:55,360 - Diet_Manager_info - INFO - User not authenticated
+2023-04-21 18:16:09,402 - Diet_Manager_info - INFO - User not authenticated
+2023-04-21 18:16:09,701 - Diet_Manager_info - INFO - User Information Comitted on Data Base
+2023-04-21 18:16:29,470 - Diet_Manager_info - INFO - Account initiated with success
+2023-04-21 18:16:29,483 - Diet_Manager_info - INFO - User authenticated
+2023-04-21 18:16:36,887 - Diet_Manager_info - INFO - User authenticated
+2023-04-21 18:17:03,524 - Diet_Manager_info - INFO - User authenticated
+2023-04-21 18:17:06,857 - Diet_Manager_info - INFO - User authenticated
+2023-04-21 18:17:10,050 - Diet_Manager_info - INFO - User authenticated
+2023-04-21 18:17:11,446 - Diet_Manager_info - INFO - User authenticated
+2023-04-21 18:17:15,998 - Diet_Manager_info - INFO - User logged out
+2023-04-21 18:17:27,037 - Diet_Manager_info - INFO - User authenticated
+2023-04-21 18:17:31,626 - Diet_Manager_info - INFO - User authenticated

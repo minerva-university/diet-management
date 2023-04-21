@@ -5,8 +5,7 @@ from flask_login import LoginManager
 from dotenv import load_dotenv
 import os
 from flask_mail import Mail
-from logger import info_logger, error_logger
-
+from logger import info_logger, error_logger 
 
 load_dotenv()
 app = Flask(__name__)
