@@ -1,10 +1,18 @@
-body {
+.mt-4 {
+  margin-top: 0rem !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  width: 1440px;
+  height: 200vh;
   background-image: url("../static/images/bg_pic.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  opacity: 1;
 }
 
 .container {
   max-width: 1440px;
-  margin-top: 24px;
 }
 
 .mb-4 {
@@ -12,6 +20,9 @@ body {
 }
 .border-bottom {
   font-size: 1rem;
+}
+.content-section {
+  margin-left: 200px;
 }
 .btn-outline-info {
   color: #f26f10;
