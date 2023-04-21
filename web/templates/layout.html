@@ -2,16 +2,18 @@
 <html lang="en">
   <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8" >
+    <meta charset="utf-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous">
+      crossorigin="anonymous"
+    />
 
     <!-- include chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -19,7 +21,8 @@
     <link
       rel="stylesheet"
       type="text/css"
-      href="{{ url_for('static', filename='main.css') }}">
+      href="{{ url_for('static', filename='main.css') }}"
+    />
 
     {% if title %}
     <title>Diet Management - {{ title }}</title>
@@ -55,9 +58,7 @@
               >Calculate Calories</a
             >
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('get_meals') }}">Get Meals</a>
-          </li>
+
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('show_meals') }}"
               >Show Meals</a
