@@ -237,7 +237,6 @@ def get_meals():
 @account_complete
 def show_meals():
     if UserCurrentDiet.query.filter_by(user_id=current_user.id).first():
-        # print("I am there")
         user_current_diet = UserCurrentDiet.query.filter_by(user_id=current_user.id).first()
         user_current_meals = UserCurrentDietMeals.query.filter_by(user_current_diet_id=user_current_diet.id).all()
         meals = []
