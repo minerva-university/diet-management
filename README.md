@@ -1,6 +1,6 @@
 # Welcome to CS162 Final Project
 
-This is a Diet Managment web application that produce diet recommendations and weight tracking.
+This is a Diet Managment web application that produce diet recommendations and weight tracking. Here is a demo of the app: https://www.loom.com/share/e2496cdb1e734657a7ca7c3e65dd9542
 
 ## Project's branches
 
@@ -8,6 +8,8 @@ The project has two branches:
 
 - `Main`: easier deployment
 - `Deployment`: deploying using docker and multiple containers
+
+**We recommend using the docker deployment to not have interference between environments.**
 
 ## `Main` Branch
 ### Run the application
