@@ -6,8 +6,8 @@ This is a Diet Managment web application that produce diet recommendations and w
 
 The project has two branches:
 
-- main: easier deployment
-- deployment: deploying using docker and multiple containers
+- `Main`: easier deployment
+- `Deployment`: deploying using docker and multiple containers
 
 ## `Main` Branch
 ### Run the application
