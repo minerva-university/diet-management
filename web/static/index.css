@@ -19,7 +19,7 @@ body {
 .jumbotron {
   background-color: rgba(255, 255, 255, 0.2);
   margin-left: 400px;
-  margin-right: 330px;
+  margin-right: 370px;
 }
 .container {
   margin-right: 0px;
@@ -42,8 +42,8 @@ body {
   font-weight: 800;
   color: black;
 }
-.alert {
-  margin-top: 365px;
+#alertLogin {
+  margin-top: 340px;
 }
 .btn-primary {
   background-color: orange;
@@ -52,7 +52,8 @@ body {
   margin-right: 20px;
 }
 .btn-primary:hover {
-  background-color: #f26f10;
+  background-color: #f26f10 !important;
+  border-color: #f26f10 !important;
 }
 
 .card-img-top {
