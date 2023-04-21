@@ -5,22 +5,37 @@ from flask import url_for
 
 @pytest.fixture
 def client():
+    """
+    Create a test client for the app
+    """
     app.config['TESTING'] = True
     app.config['WTF_CSRF_ENABLED'] = False
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
     test_client = app.test_client()
 
     with app.app_context():
+        """
+        Create all tables
+        """
         db.create_all()
 
     yield test_client
 
     with app.app_context():
+        """
+        Drop all tables
+        """
         db.session.remove()
         db.drop_all()
 
 @pytest.fixture
 def test_meals():
+    """
+    Create test meals to be used in other tests
+
+    Returns:
+        List[Meals]: A list of test meals
+    """
     meals = [
         Meals(name='Breakfast Meal 1', calories=100, serving_size=1, recipe='Recipe'),
         Meals(name='Breakfast Meal 2', calories=200, serving_size=1, recipe='Recipe'),
@@ -48,6 +63,16 @@ def test_meals():
 
 # Helper function to create a test user
 def create_test_user(email='test@example.com', password='test_password'):
+    """
+    Create a test user to be used in other tests
+
+    Params:
+        email: The email of the test user
+        password: The password of the test user
+
+    Returns:
+        The test user
+    """
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
     user = User(name='Test User', email=email, password=hashed_password)
     db.session.add(user)
@@ -56,6 +81,15 @@ def create_test_user(email='test@example.com', password='test_password'):
 
 # Log in helper
 def login_test_user(client):
+    """
+    Log in the test user
+
+    Params:
+        client: The test client
+
+    Returns:
+        The test client
+    """
     client.post('/login', data=dict(
         email='test@example.com',
         password='test_password'
@@ -68,6 +102,16 @@ def login_test_user(client):
 
 # Test cases for /get-meals route
 def test_get_meals_route(client, test_meals):
+    """
+    Test cases for /get-meals route
+
+    Params:
+        client: The test client
+        test_meals: The test meals
+
+    Returns:
+        None
+    """
     with app.app_context():
         # Get the test user
         test_user = create_test_user()
@@ -79,6 +123,16 @@ def test_get_meals_route(client, test_meals):
 
 # Test cases for /show-meals route
 def test_show_meals_route(client, test_meals):
+    """
+    Test cases for /show-meals route
+
+    Params:
+        client: The test client
+        test_meals: The test meals
+
+    Returns:
+        None
+    """
     with app.app_context():
         # Get the test user
         test_user = create_test_user()
@@ -92,11 +146,20 @@ def test_show_meals_route(client, test_meals):
         # Test case 2: User has UserCurrentDiet record
         client.get('/get-meals')
         response = client.get('/show-meals')
-        print(response.data)
         assert response.status_code == 200
 
 # Test cases for /save-meal route
 def test_save_meal_route(client, test_meals):
+    """
+    Test cases to save the meal
+
+    Params:
+        client: The test client
+        test_meals: The test meals
+
+    Returns:
+        None
+    """
     with app.app_context():
         # Get the test user
         test_user = create_test_user()

@@ -1,0 +1,22 @@
+2023-04-21 13:40:37,696 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 13:40:37,724 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 13:40:37,829 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 13:40:37,840 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 13:41:08,893 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 13:41:08,910 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 14:05:06,443 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 14:05:06,473 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 14:05:06,567 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 14:05:06,579 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 14:43:13,638 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 14:43:13,688 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 14:43:13,744 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 14:43:13,755 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 14:46:54,228 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 14:46:54,258 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 14:47:19,101 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 14:47:19,114 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 14:47:37,898 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 14:47:37,912 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 14:47:41,158 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 14:47:41,172 - Diet_Manager_info - INFO - Data Base constructed

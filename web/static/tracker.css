@@ -1,0 +1,28 @@
+.mt-4 {
+  margin-top: 0rem !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  width: 1500px;
+  height: 100vh;
+  background-image: url("../static/images/bg_pic.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  opacity: 0.8;
+}
+
+.container {
+  max-width: 1440px;
+}
+.content-section {
+  margin-left: 400px;
+  margin-top: 50px;
+}
+.btn-primary {
+  background-color: #f26f10;
+  border-color: #f26f10;
+}
+.btn:hover {
+  background-color: #f26f10;
+  border-color: #f26f10;
+}

@@ -7,6 +7,9 @@ from flask_login import login_user, current_user, logout_user
 # Create a fixture for test client
 @pytest.fixture
 def client():
+    """
+    Setup a test client for the app
+    """
     app.config['TESTING'] = True
     app.config['WTF_CSRF_ENABLED'] = False
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -22,6 +25,16 @@ def client():
 
 # Helper function to create a test user
 def create_test_user(email='test@example.com', password='test_password'):
+    """
+    Create a test user to be used in other tests
+
+    Params:
+        email: The email address of the test user
+        password: The password of the test user
+
+    Returns:
+        The test user
+    """
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
     user = User(name='Test User', email=email, password=hashed_password)
     db.session.add(user)
@@ -30,6 +43,15 @@ def create_test_user(email='test@example.com', password='test_password'):
 
 # Test function for 'register' route
 def test_register(client):
+    """
+    Test the 'register' route
+
+    Params:
+        client: A test client
+
+    Returns:
+        None
+    """
     # Test GET request to 'register' route
     response = client.get('/register')
     assert response.status_code == 200
@@ -47,11 +69,19 @@ def test_register(client):
         name='Invalid User', email='invalid_user', password='invalid_password', confirm_password='invalid_password'
     ), follow_redirects=True)
     assert response.status_code == 200
-    print(response.data)
     assert b'Invalid email address' in response.data
 
 # Test function for 'login' route
 def test_login(client):
+    """
+    Test the 'login' route
+
+    Params:
+        client: A test client
+
+    Returns:
+        None
+    """
     # Create a test user
     test_user = create_test_user()
 
@@ -70,6 +100,15 @@ def test_login(client):
 
 # for 'logout' route
 def test_logout(client):
+    """
+    Test the 'logout' route
+
+    Params:
+        client: A test client
+
+    Returns:
+        None
+    """
     # Create and login a test user
     test_user = create_test_user()
     with client.session_transaction() as sess:
@@ -80,11 +119,19 @@ def test_logout(client):
     # Test GET request to 'logout' route
     response = client.get('/logout', follow_redirects=True)
     assert response.status_code == 200
-    print(response.data)
     assert b'Welcome' in response.data  # Assuming 'Welcome' is part of the content in the 'index' route
 
 # Test function for 'finish_account' route
 def test_finish_account(client):
+    """
+    Test the 'finish-account' route
+
+    Params:
+        client: A test client
+
+    Returns:
+        None
+    """
     # Create and login a test user
     test_user = create_test_user()
     with client.session_transaction() as sess:
@@ -120,5 +167,4 @@ def test_finish_account(client):
                                      goal='Lose Weight', activity_level='Sedentary', gender='Male'),
                            follow_redirects=True)
     assert response.status_code == 200
-    print(response.data)
     assert b'Show Meals' in response.data

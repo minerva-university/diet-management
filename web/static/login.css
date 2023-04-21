@@ -1,50 +1,52 @@
-
-
-*{
+* {
   background-color: white;
 }
-  /* Create two equal columns that floats next to each other */
-  .column1 {
-    float: left;
-    width: 50%;
-    height:100%;
-    margin: 0;
-    padding: 0;
-    float: left;
-    }
-    
-  /* Clear floats after the columns */
-  .row:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-  
-  #right_col{
-    width: 50%;
-    padding-right: 15px;
-    padding-top: 0;
-  }
+/* Create two equal columns that floats next to each other */
+.column1 {
+  float: left;
+  width: 50%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 
-  #left_col{
-    padding-top: 0;
-  
-  }
- 
-.app_name{
-  text-align: center;
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+#right_col {
+  width: 50%;
+  padding-right: 15px;
   padding-top: 0;
 }
-.border-bottom mb-4{
+
+#left_col {
+  padding-top: 0;
+}
+
+.app_name {
+  text-align: center;
+  padding-top: 0;
+  color: orange;
+}
+.border-bottom mb-4 {
   text-align: center;
 }
-.btn{
+.btn {
   color: white;
   width: 100%;
-  background-color:orange;
+  background-color: orange;
+  border-color: #f26f10;
 }
-.responsive{
-  width: 850px;
+.btn:hover {
+  background-color: #f26f10 !important;
+  border-color: #f26f10 !important;
+}
+.responsive {
+  width: 950px;
   height: 700px;
 }
 
@@ -53,4 +55,20 @@
   margin-left: auto;
   margin-right: auto;
   width: 50%;
+}
+.mt-4 {
+  margin-top: 0rem !important;
+  margin-left: 4rem !important;
+  margin-right: 0rem !important;
+}
+.ml-2 {
+  color: orange;
+}
+.alert {
+  width: 1200px;
+  margin-left: 0px !important;
+}
+.alert-info {
+  background-color: rgb(242, 158, 158);
+  color: red;
 }

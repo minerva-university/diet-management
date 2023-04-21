@@ -5,6 +5,9 @@ from flask import url_for
 
 @pytest.fixture
 def client():
+    """
+    Create a test client for the app
+    """
     app.config['TESTING'] = True
     app.config['WTF_CSRF_ENABLED'] = False
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -21,6 +24,12 @@ def client():
 
 @pytest.fixture
 def test_meals():
+    """
+    Create test meals to be used in other tests
+
+    Returns:
+        List[Meals]: A list of test meals
+    """
     meals = [
         Meals(name='Breakfast Meal 1', calories=100, serving_size=1, recipe='Recipe'),
         Meals(name='Breakfast Meal 2', calories=200, serving_size=1, recipe='Recipe'),
@@ -48,6 +57,16 @@ def test_meals():
 
 # Helper function to create a test user
 def create_test_user(email='test@example.com', password='test_password'):
+    """
+    Create a test user
+
+    Params:
+        email: The email of the test user
+        password: The password of the test user
+
+    Returns:
+        User: The test user
+    """
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
     user = User(name='Test User', email=email, password=hashed_password)
     db.session.add(user)
@@ -56,6 +75,15 @@ def create_test_user(email='test@example.com', password='test_password'):
 
 # Log in helper
 def login_test_user(client):
+    """
+    Log in a test user
+
+    Params:
+        client: The test client
+
+    Returns:
+        client: The test client
+    """
     client.post('/login', data=dict(
         email='test@example.com',
         password='test_password'
@@ -67,6 +95,16 @@ def login_test_user(client):
     return client
 
 def test_show_calories(client, test_meals):
+    """
+    Test the 'show-calories' route
+
+    Params:
+        client: The test client
+        test_meals: The test meals
+
+    Returns:
+        None
+    """
     # Create and login a test user
     create_test_user()
     login_test_user(client)
@@ -78,7 +116,6 @@ def test_show_calories(client, test_meals):
     client.get('/save-meal')
     # Test GET request to 'show-calories' route
     response = client.get('/show-calories')
-    print(response.data)
     assert response.status_code == 200
     assert b'Calories Over Time' in response.data
 
@@ -90,6 +127,16 @@ def test_show_calories(client, test_meals):
         assert bytes(time_frame, 'utf-8') in response.data
 
 def test_show_weight(client, test_meals):
+    """
+    Test the 'show-weight' route
+
+    Params:
+        client: The test client
+        test_meals: The test meals
+
+    Returns:
+        None
+    """    
     # Create and login a test user
     test_user = create_test_user()
     login_test_user(client)
@@ -98,7 +145,6 @@ def test_show_weight(client, test_meals):
     client.get('/save-meal')
     # Test GET request to 'show-weight' route
     response = client.get('/show-weight')
-    print(response.data)
     assert response.status_code == 200
     assert b'weight Over Time' in response.data
 

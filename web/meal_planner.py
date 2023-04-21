@@ -1,5 +1,6 @@
 from web.models import Meals, MealsLabel, UserCalories
 import random  # Import the random module
+from logger import info_logger, error_logger
 
 def choose_meals_for_user(user_id):
     # Retrieve the user's required calories
