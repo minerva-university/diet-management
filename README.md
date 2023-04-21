@@ -92,7 +92,7 @@ Then:
 python3 server.py
 ```
 
-## Deployment branch
+## `Deployment` branch
 
 This branch uses Docker containers to deploy the application.
 
