@@ -10,7 +10,7 @@ docker swarm leave --force
 ```
 Run Tests
 ```
-docker-compose run --build test
+docker-compose run --build test; docker-compose down
 ```
 # Welcome to CS162 Final Project
 
