@@ -1,14 +1,9 @@
-name: CI Tests
+name: Run Unit Tests
 
 on:
   push:
     branches:
       - main
-      - deployment
-  pull_request:
-    types: [opened, synchronize, reopened]
-    branches:
-      - main 
       - deployment
 
 jobs:
@@ -47,7 +42,6 @@ jobs:
     - name: Test with pytest
       run: |
         pytest unit_test
-        pytest integration_test
       env:
         DATABASE_URL: 'sqlite:///web.db'
         SECRET_KEY: 'e9cac0f3f4Yd47a3be91d7b8f5'    

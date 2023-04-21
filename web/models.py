@@ -57,9 +57,9 @@ class User(db.Model, UserMixin):
     weight = db.Column(db.Integer, nullable=True)
     height = db.Column(db.Integer, nullable=True)
     age = db.Column(db.Integer, nullable=True)
-    activity_level = db.Column(db.Enum('Sedentary', 'Lightly Active', 'Moderately Active', 'Very Active', 'Extra Active', name="activity_types"), nullable=True)
-    gender = db.Column(db.Enum('Male', 'Female', name='gender_types'), nullable=True)
-    goal = db.Column(db.Enum('Lose Weight', 'Gain Weight', 'Maintain Weight', name='goal_types'), nullable=True)
+    activity_level = db.Column(db.Enum('Sedentary', 'Lightly Active', 'Moderately Active', 'Very Active', 'Extra Active', name="activity_enum"), nullable=True)
+    gender = db.Column(db.Enum('Male', 'Female', name='gender_enum'), nullable=True)
+    goal = db.Column(db.Enum('Lose Weight', 'Gain Weight', 'Maintain Weight', name='goal_enum'), nullable=True)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
     is_active = db.Column(db.Boolean, default=True, nullable=False)
@@ -240,9 +240,9 @@ class UserHistory(db.Model):
     weight = db.Column(db.Integer, nullable=True)
     height = db.Column(db.Integer, nullable=True)
     age = db.Column(db.Integer, nullable=True)
-    activity_level = db.Column(db.Enum('Sedentary', 'Lightly Active', 'Moderately Active', 'Very Active', 'Extra Active', name="activity_types"), nullable=True)
-    gender = db.Column(db.Enum('Male', 'Female', name='gender_types'), nullable=True)
-    goal = db.Column(db.Enum('Lose Weight', 'Gain Weight', 'Maintain Weight', name='goal_types'), nullable=True)
+    activity_level = db.Column(db.Enum('Sedentary', 'Lightly Active', 'Moderately Active', 'Very Active', 'Extra Active', name='activity_enum', existing_type=True), nullable=True)
+    gender = db.Column(db.Enum('Male', 'Female', name='gender_enum', existing_type=True), nullable=True)
+    goal = db.Column(db.Enum('Lose Weight', 'Gain Weight', 'Maintain Weight', name='goal_enum', existing_type=True), nullable=True)
     created_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
     user = db.relationship('User', backref='user_history', lazy=True)
 
@@ -295,7 +295,7 @@ class MealsPhotos(db.Model):
     __tablename__ = 'meals_photos'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     meal_id = db.Column(db.Integer, db.ForeignKey('meals.id'), nullable=False)
-    photo = db.Column(db.BLOB, nullable=False)
+    photo = db.Column(db.LargeBinary, nullable=False)
     created_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
     updated_at = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
     meal = db.relationship('Meals', backref='meals_photos')
@@ -406,4 +406,3 @@ class DietCalories(db.Model):
 
     def __repr__(self):
         return f"DietCalories('{self.calories}')"
-

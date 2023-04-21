@@ -1,3 +1,20 @@
+```
+docker build -t diet .
+docker swarm init
+docker stack deploy -c docker-compose.yml diet-swarm
+```
+For turning it off
+```
+docker stack rm diet-swarm
+docker swarm leave --force
+```
+Run Tests
+```bash
+docker-compose -f docker-compose-test.yml up --build --abort-on-container-exit test
+docker-compose -f docker-compose-test.yml down
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+```
 # Welcome to CS162 Final Project
 
 ![template ci](https://github.com/minerva-schools/template-cs162/actions/workflows/ci.yaml/badge.svg)
