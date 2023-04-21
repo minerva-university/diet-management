@@ -10,12 +10,12 @@ The project has two branches:
 - deployment: deploying using docker and multiple containers
 
 ## `Main` Branch
-
-### Run Virtual Environment
+### Run the application
+#### Run Virtual Environment
 
 Virtual environment is a key component in ensuring that the application is configured in the right environment
 
-#### Requirements
+##### Requirements
 
 - Python 3
 - Pip 3
@@ -26,7 +26,7 @@ brew install python3
 
 Pip3 is installed with Python3
 
-#### Installation
+##### Installation
 
 To install virtualenv via pip run:
 
@@ -34,7 +34,7 @@ To install virtualenv via pip run:
 pip3 install virtualenv
 ```
 
-#### Usage
+##### Usage
 
 Creation of virtualenv:
 
@@ -72,7 +72,7 @@ Install dependencies in virtual environment:
 pip3 install -r requirements.txt
 ```
 
-### Run Application
+#### Run Application
 
 Start the server by running:
 
