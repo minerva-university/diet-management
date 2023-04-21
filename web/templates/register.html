@@ -4,7 +4,7 @@
 <div class="row">
     <div class="column1" id="right_col">
     <div class="content-section">
-        <form method="POST" action="">
+        <form method="POST" action="{{ url_for('register') }}">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">{{ legend }}</legend>
