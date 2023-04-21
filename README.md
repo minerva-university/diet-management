@@ -9,7 +9,7 @@ docker stack rm diet-swarm
 docker swarm leave --force
 ```
 Run Tests
-```
+```bash
 docker-compose -f docker-compose-test.yml up --build --abort-on-container-exit test
 docker-compose -f docker-compose-test.yml down
 docker stop $(docker ps -a -q)
