@@ -22,6 +22,7 @@ body {
   background-color: rgba(255, 255, 255, 0.2);
   margin-left: 370px;
   margin-right: 330px;
+  margin-bottom: 0rem !important;
 }
 
 .container {
@@ -70,12 +71,12 @@ body {
 
 .card-body {
   background-color: white;
-  height: 200px;
+  height: 170px;
 }
 
 .card {
   width: 370px;
-  margin-left: 45px;
+  margin-left: 30px;
 }
 
 .navbar-brand {
@@ -84,4 +85,10 @@ body {
 
 .navbar-text {
   color: #f26f10 !important;
+}
+#show_meals {
+  margin-left: 300px;
+}
+#calc_calories {
+  margin-left: 150px;
 }
