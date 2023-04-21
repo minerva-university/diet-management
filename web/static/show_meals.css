@@ -1,49 +1,80 @@
-body{
-    min-width: 100vh;
-    margin: auto;
-    padding-left: 50px;
+body {
+  min-width: 100vh;
+  margin: auto;
+  padding-left: 0px;
 }
 
 * {
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: Arial, Helvetica, sans-serif;
-  }
-  
-  /* Float four columns side by side */
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Float four columns side by side */
+.column {
+  float: left;
+  width: 33%;
+  padding: 0 10px;
+}
+
+/* Remove extra left and right margins, due to padding */
+.row {
+  width: 1000px;
+  margin-left: 100px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive columns */
+@media screen and (max-width: 600px) {
   .column {
-    float: left;
-    width: 33%;
-    padding: 0 10px;
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
   }
-  
-  /* Remove extra left and right margins, due to padding */
-  .row {margin: 0;
-width: 1000px;}
-  
-  /* Clear floats after the columns */
-  .row:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-  
-  /* Responsive columns */
-  @media screen and (max-width: 600px) {
-    .column {
-      width: 100%;
-      display: block;
-      margin-bottom: 20px;
-    }
-  }
-  
-  /* Style the counter cards */
-  .card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    padding: 16px;
-    text-align: center;
-    background-color: #f1f1f1;
-    height: 350px;
-  }
+}
+
+/* Style the counter cards */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+  height: 350px;
+}
+
+.mt-4 {
+  margin-top: 0rem !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  width: 1500px;
+  height: 100vh;
+  background-image: url("../static/images/bg_pic.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  opacity: 1;
+}
+
+.container {
+  max-width: 1440px;
+}
+h3 {
+  font-weight: 600;
+  margin-top: 50px;
+}
+.btn-primary {
+  background-color: orange;
+  border-color: orange;
+}
+.btn:hover {
+  background-color: #f26f10;
+  border-color: #f26f10;
+}
