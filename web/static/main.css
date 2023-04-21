@@ -48,7 +48,8 @@
   margin-bottom: 20px;
 }
 .alert-success {
-  width: 1440px;
+  width: 1440px !important;
+  margin-left: 0px !important;
 }
 .alert {
   margin-bottom: 0rem !important;
