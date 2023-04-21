@@ -1,0 +1,47 @@
+name: Deploy App
+
+on:
+  push:
+    branches:
+      - deployment
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v4.0.0
+        
+      - name: Build Docker image
+        run: docker build -t my-image .
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push Docker image to Docker Hub
+        run: |
+          docker tag my-image dietmanagment/diet
+          docker push dietmanagment/diet
+
+      - name: Initiate Docker swarm
+        run: docker swarm init --advertise-addr eth0
+
+      - name: Deploy app with Docker Compose
+        run: docker compose up -d
+        env:
+          COMPOSE_FILE: docker-compose-test.yml
+          STACK_NAME: my-stack
+          
+      - name: Run tests and clean up
+        run: |
+          docker-compose run --build test
+          docker-compose down
