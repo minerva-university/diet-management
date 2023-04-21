@@ -1,3 +1,12 @@
+```
+docker build -t diet .
+docker swarm init
+docker stack deploy -c docker-compose.yml diet-swarm
+```
+For turning it off
+```
+docker stack rm cs162-swarm
+```
 # Welcome to CS162 Final Project
 
 ![template ci](https://github.com/minerva-schools/template-cs162/actions/workflows/ci.yaml/badge.svg)

@@ -2,15 +2,6 @@ from web.models import Meals, MealsLabel, UserCalories
 import random  # Import the random module
 
 def choose_meals_for_user(user_id):
-    """
-    Choose meals for a user based on their required calories and the labels of the meals.
-
-    Params:
-        user_id (int): The user's id
-
-    Returns:
-        A list of meals for the user
-    """
     # Retrieve the user's required calories
     user_calories = UserCalories.query.filter_by(user_id=user_id).first()
     required_calories = user_calories.calories
@@ -27,16 +18,6 @@ def choose_meals_for_user(user_id):
 
     # Helper function to find the closest meal based on allocated calories
     def find_closest_meal(meals, target_calories):
-        """
-        Find the closest meal based on allocated calories.
-
-        Params:
-            meals (list): A list of meals
-            target_calories (int): The target calories
-
-        Returns:
-            The closest meal
-        """
         closest_meal = min(meals, key=lambda meal: abs(meal.calories - target_calories))
         return closest_meal
 
