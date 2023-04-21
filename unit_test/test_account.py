@@ -1,4 +1,5 @@
 import pytest
+from faker import Faker
 from web import app, db
 from web.models import User, UserWeightOverTime, UserCalories
 from web.urls import calculate_calories
@@ -18,21 +19,20 @@ def test_client():
     with app.app_context():
         db.session.remove()
         db.drop_all()
+        
+        
+
+fake = Faker()
 
 @pytest.fixture
 def test_user():
-    email = 'testuser@example.com'
-    existing_user = User.query.filter_by(email=email).first()
-    if existing_user:
-        db.session.delete(existing_user)
-        db.session.commit()
-
-    user = User(name='TestUser', email=email, password='testpassword')
+    user = User(name='TestUser', email=fake.email(), password='testpassword')
     db.session.add(user)
     db.session.commit()
     yield user
     db.session.delete(user)
     db.session.commit()
+
 
 def test_calculate_calories(test_user):
     test_user.gender = 'Male'
