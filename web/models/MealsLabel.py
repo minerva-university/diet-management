@@ -3,6 +3,7 @@ from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from logger import info_logger, error_logger
 
+
 class MealsLabel(db.Model):
     """
     A model class to represent a label of a meal.

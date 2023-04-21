@@ -3,7 +3,6 @@ from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from logger import info_logger, error_logger
 
-
 class UserCurrentDiet(db.Model):
     """
     A class representing a user's current diet.

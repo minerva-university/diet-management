@@ -5,7 +5,7 @@ from PIL import Image
 from flask import render_template, request, redirect, url_for, flash
 from web import app, db, bcrypt, mail
 from web.forms import RegistrationForm, LoginForm, UpdateAccountForm, CalculateCalories, RequestResetForm, ResetPasswordForm, WeightTimeFilterForm, CaloriesTimeFilterForm
-# from web.models import User, UserCalories, UserCurrentDiet, UserCurrentDietMeals, Meals, MealsPhotos, MealsLabel, DietCalories, UserWeightOverTime, UserCaloriesOverTime
+#from web.models import User, UserCalories, UserCurrentDiet, UserCurrentDietMeals, Meals, MealsPhotos, MealsLabel, DietCalories, UserWeightOverTime, UserCaloriesOverTime
 from flask_login import login_user, current_user, logout_user, login_required
 from web.meal_planner import choose_meals_for_user
 from functools import wraps

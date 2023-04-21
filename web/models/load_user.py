@@ -2,7 +2,7 @@ from .. import db, login_manager, app
 from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from logger import info_logger, error_logger
-from models.User import User
+from User import User
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -17,4 +17,3 @@ def load_user(user_id):
     """
     return User.query.get(int(user_id))
 
-    
