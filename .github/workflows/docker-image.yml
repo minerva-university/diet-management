@@ -3,7 +3,7 @@ name: Deploy App
 on:
   push:
     branches:
-      - main # Change this to the branch you want to trigger the workflow on
+      - deployment
 
 jobs:
   run-tests:
