@@ -81,7 +81,6 @@ def test_show_calories(client, test_meals):
     client.get('/save-meal')
     # Test GET request to 'show-calories' route
     response = client.get('/show-calories')
-    print(response.data)
     assert response.status_code == 200
     assert b'Calories Over Time' in response.data
 
@@ -101,7 +100,6 @@ def test_show_weight(client, test_meals):
     client.get('/save-meal')
     # Test GET request to 'show-weight' route
     response = client.get('/show-weight')
-    print(response.data)
     assert response.status_code == 200
     assert b'weight Over Time' in response.data
 
