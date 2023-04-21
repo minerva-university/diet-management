@@ -1,0 +1,6 @@
+2023-04-21 13:40:37,696 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 13:40:37,724 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 13:40:37,829 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 13:40:37,840 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 13:41:08,893 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 13:41:08,910 - Diet_Manager_info - INFO - Data Base constructed

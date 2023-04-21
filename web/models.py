@@ -1,6 +1,7 @@
 from . import db, login_manager, app
 from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from logger import info_logger, error_logger
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -93,7 +94,9 @@ class User(db.Model, UserMixin):
         s = Serializer(app.config['SECRET_KEY'])
         try:
             user_id = s.loads(token)['user_id']
+            info_logger.info("Token reseted")
         except:
+            info_logger.error("Validation not succesful")
             return None
         return User.query.get(user_id)
 

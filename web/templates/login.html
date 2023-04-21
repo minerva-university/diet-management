@@ -10,7 +10,7 @@
         class="logo"
       />
       <h3 class="app_name" style="font-weight: bolder">MealMindy</h3>
-      <form method="POST" action="">
+      <form method="POST" action="{{ url_for('login') }}">
         {{ form.hidden_tag() }}
         <fieldset class="form-group">
           <legend class="border-bottom mb-4">{{ legend }}</legend>
