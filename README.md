@@ -10,7 +10,10 @@ docker swarm leave --force
 ```
 Run Tests
 ```
-docker-compose run --build test; docker-compose down
+docker-compose -f docker-compose-test.yml run --build test
+docker-compose down
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
 ```
 # Welcome to CS162 Final Project
 
