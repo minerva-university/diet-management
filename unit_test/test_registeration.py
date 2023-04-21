@@ -47,7 +47,6 @@ def test_register(client):
         name='Invalid User', email='invalid_user', password='invalid_password', confirm_password='invalid_password'
     ), follow_redirects=True)
     assert response.status_code == 200
-    print(response.data)
     assert b'Invalid email address' in response.data
 
 # Test function for 'login' route
@@ -80,7 +79,6 @@ def test_logout(client):
     # Test GET request to 'logout' route
     response = client.get('/logout', follow_redirects=True)
     assert response.status_code == 200
-    print(response.data)
     assert b'Welcome' in response.data  # Assuming 'Welcome' is part of the content in the 'index' route
 
 # Test function for 'finish_account' route
@@ -120,5 +118,4 @@ def test_finish_account(client):
                                      goal='Lose Weight', activity_level='Sedentary', gender='Male'),
                            follow_redirects=True)
     assert response.status_code == 200
-    print(response.data)
     assert b'Show Meals' in response.data

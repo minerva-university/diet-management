@@ -245,7 +245,6 @@ def get_meals():
 @account_complete
 def show_meals():
     if UserCurrentDiet.query.filter_by(user_id=current_user.id).first():
-        # print("I am there")
         user_current_diet = UserCurrentDiet.query.filter_by(user_id=current_user.id).first()
         user_current_meals = UserCurrentDietMeals.query.filter_by(user_current_diet_id=user_current_diet.id).all()
         meals = []
@@ -254,7 +253,6 @@ def show_meals():
         for user_current_meal in user_current_meals:
             meal = Meals.query.filter_by(id=user_current_meal.meal_id).first()
             meal_id=user_current_meal.meal_id
-            print(meal_id)
             label=MealsLabel.query.filter_by(id=meal_id).first()
             meal_type=label.label
             serving_size = user_current_meal.serving_size
