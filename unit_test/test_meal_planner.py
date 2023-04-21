@@ -1,6 +1,5 @@
 import pytest
 from web import app, db
-# from web.models import User, Meals, UserCalories, MealsLabel
 from web.models.User import User
 from web.models.Meals import Meals
 from web.models.UserCalories import UserCalories

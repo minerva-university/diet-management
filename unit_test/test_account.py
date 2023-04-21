@@ -3,7 +3,6 @@ import os
 os.environ['DATABASE_URL'] = 'sqlite:///test.db'
 import pytest
 from web import app, db
-# from web.models import User, UserWeightOverTime, UserCalories
 from web.models.User import User 
 from web.models.UserWeightOverTime import UserWeightOverTime 
 from web.models.UserCalories import UserCalories 

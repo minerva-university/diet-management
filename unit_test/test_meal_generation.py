@@ -1,6 +1,5 @@
 import pytest
 from web import app, db, bcrypt
-# from web.models import User, UserCalories, UserCurrentDiet, DietCalories, UserCaloriesOverTime, Meals, MealsLabel
 from web.models.User import User 
 from web.models.UserCaloriesOverTime import UserCaloriesOverTime 
 from web.models.Meals import Meals 
