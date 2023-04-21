@@ -40,3 +40,8 @@ jobs:
         env:
           COMPOSE_FILE: docker-compose.yml
           STACK_NAME: my-stack
+          
+      - name: Run tests and clean up
+        run: |
+          docker-compose run --build test
+          docker-compose down
