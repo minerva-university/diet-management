@@ -5,6 +5,9 @@ from web.models import User, UserWeightOverTime, UserCaloriesOverTime, UserCalor
 
 @pytest.fixture(scope='module')
 def test_app():
+    """
+    Create a test client for the app
+    """
     app.config['TESTING'] = True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
     with app.app_context():
@@ -14,6 +17,15 @@ def test_app():
         db.drop_all()
 
 def test_create_user(test_app):
+    """
+    Test creating a user
+
+    Params:
+        test_app: A test app
+
+    Returns:
+        None
+    """
     user = User(name='John Doe', email='john.doe@example.com', password='testpassword')
     db.session.add(user)
     db.session.commit()
@@ -26,6 +38,15 @@ def test_create_user(test_app):
 
 
 def test_user_weight_over_time(test_app):
+    """
+    Test creating a user weight over time object
+
+    Params:
+        test_app: A test app
+
+    Returns:
+        None
+    """
     user = User(name='John Doe', email='john.doe@example.com', password='testpassword')
     db.session.add(user)
     db.session.commit()
@@ -41,6 +62,15 @@ def test_user_weight_over_time(test_app):
 
 
 def test_user_calories(test_app):
+    """
+    Test creating a user calories object
+
+    Params:
+        test_app: A test app
+
+    Returns:
+        None
+    """
     user = User(name='John Doe', email='john.doe@example.com', password='testpassword')
     db.session.add(user)
     db.session.commit()
@@ -55,6 +85,15 @@ def test_user_calories(test_app):
     assert fetched_user_calories.user == user
 
 def test_user_history(test_app):
+    """
+    Test creating a user history object
+
+    Params:
+        test_app: A test app
+
+    Returns:
+        None
+    """
     user = User(name='John Doe', email='john.doe@example.com', password='testpassword')
     db.session.add(user)
     db.session.commit()

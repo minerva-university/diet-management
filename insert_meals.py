@@ -4,6 +4,19 @@ from web.models import Meals, MealsLabel
 # Your models here (Meals, MealsPhotos, MealsLabel)
 
 def add_meal(name, calories, serving_size, recipe, labels):
+    """
+    Add a meal to the database
+
+    Params:
+        name (str): The name of the meal
+        calories (int): The number of calories in the meal
+        serving_size (int): The number of servings in the meal
+        recipe (str): The recipe of the meal
+        labels (List[str]): The labels of the meal
+
+    Returns:
+        None
+    """
     meal = Meals(name=name, calories=calories, serving_size=serving_size, recipe=recipe)
     db.session.add(meal)
     db.session.flush()

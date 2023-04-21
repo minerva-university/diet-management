@@ -12,6 +12,10 @@ from functools import wraps
 from flask_mail import Message
 
 def account_complete(f):
+    """
+    Define a decorator to check if the user has completed their account details.
+    If they haven't, it redirects them to the finiah account page
+    """
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if current_user.is_authenticated:
@@ -23,11 +27,18 @@ def account_complete(f):
 
 @app.route('/')
 def index():
+    """
+    The home page of the application
+    """
     return render_template('index.html')
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    """
+    Creates the registration form and handles the POST request
+    If the form submission is valid, it creates a new user and redirects them to the login page
+    """
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = RegistrationForm()
@@ -42,6 +53,10 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """
+    Creates the login form and handles the POST request
+    If the form submission is valid, it logs the user in and redirects them to the index page
+    """
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = LoginForm()
@@ -54,6 +69,7 @@ def login():
                 flash('Please complete your account details.', 'warning')
                 return redirect(url_for('finish_account'))
             
+            # If the user requests a page that requires login, it redirects them to that page after the login
             next_page = request.args.get('next')
             if next_page:
                 return redirect(next_page)
@@ -68,6 +84,9 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
+    """
+    Logs the user out and redirects them to the index page
+    """
     logout_user()
     return redirect(url_for('index'))
 
@@ -75,6 +94,9 @@ def logout():
 @app.route('/finish-account', methods=['GET', 'POST'])
 @login_required
 def finish_account():
+    """
+    Creates the account completion form and handles the POST request
+    """
     if UserCalories.query.filter_by(user_id=current_user.id).first():
         return redirect(url_for('index'))
     form = CalculateCalories()
@@ -97,6 +119,15 @@ def finish_account():
     return render_template('finish_account.html', title='Complete Account Details', form=form)
 
 def save_picture(form_picture):
+    """
+    Saves the picture to the static/images folder
+
+    Params:
+        form_picture: the picture uploaded by the user
+
+    Returns:
+        picture_fn: the name of the picture
+    """
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_fn = random_hex + f_ext
@@ -111,6 +142,11 @@ def save_picture(form_picture):
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
+    """
+    Creates the account update form and handles the POST request
+    If the request is GET, it displays the current user's information
+    If the request is POST, it updates the user's information and tracks the weight change
+    """
     image_file = url_for('static', filename='images/' + current_user.image_file)
     form = UpdateAccountForm()
     if form.validate_on_submit():
@@ -193,6 +229,9 @@ def calculate_calories(current_user):
 @login_required
 @account_complete
 def get_calories():
+    """
+    Calculates the calories needed for the user and displays it
+    """
     calories = calculate_calories(current_user)
     if UserCalories.query.filter_by(user_id=current_user.id).first():
         UserCalories.query.filter_by(user_id=current_user.id).delete()
@@ -206,6 +245,9 @@ def get_calories():
 @login_required
 @account_complete
 def get_meals():
+    """
+    Gets the meals for the user based on their calories
+    """
     if not UserCalories.query.filter_by(user_id=current_user.id).first():
         return redirect(url_for('get_calories'))
     breakfast_meal, lunch_meal, dinner_meal = choose_meals_for_user(current_user.id)
@@ -236,6 +278,9 @@ def get_meals():
 @login_required
 @account_complete
 def show_meals():
+    """
+    Shows the meals for the user that nake up a specific diet
+    """
     if UserCurrentDiet.query.filter_by(user_id=current_user.id).first():
         user_current_diet = UserCurrentDiet.query.filter_by(user_id=current_user.id).first()
         user_current_meals = UserCurrentDietMeals.query.filter_by(user_current_diet_id=user_current_diet.id).all()
@@ -269,6 +314,9 @@ def show_meals():
 @login_required
 @account_complete
 def save_calories():
+    """
+    For the diet the user chose, save the calories to the database to track over time
+    """
     user_current_diet = UserCurrentDiet.query.filter_by(user_id=current_user.id).first()
     calories = DietCalories.query.filter_by(user_current_diet_id=user_current_diet.id).first()
 
@@ -284,9 +332,8 @@ def save_calories():
 @account_complete
 def show_calories(time_frame=None):
     """ 
-    Use the results of the past 1 week for the default visualization, 
-    but also show the dropdown form to allow the user to select a different time range. 
-    This has values for 1 week, 2 weeks, 3 weeks, and 1 month
+    Shows the calories for the user over time. 
+    The user can choose to see the calories over 1 week, 2 weeks, 3 weeks, or 1 month
     """
     
     # the user doesn't have any meals chosen yet, so redirect them to the get meals page
@@ -330,9 +377,8 @@ def show_calories(time_frame=None):
 @account_complete
 def show_weight(time_frame=None):
     """ 
-    Use the results of the past month for the default visualization, 
-    but also show the dropdown form to allow the user to select a different time range. 
-    This has values for 1 week, 2 weeks, 3 weeks, 1 month, 3 months, 6 months, 1 year.
+    Shows the weight for the user over time.
+    The user can choose to see the weight over 1 week, 2 weeks, 3 weeks, 1 month, 3 months, 6 months, or 1 year
     """
     form = WeightTimeFilterForm()
     if form.validate_on_submit():
@@ -367,6 +413,15 @@ def show_weight(time_frame=None):
 
 
 def send_reset_email(user):
+    """
+    Sends an email to the user with a link to reset their password
+
+    Params:
+        user: The user to send the email to
+
+    Returns:
+        None
+    """
     token = user.get_reset_token()
     msg = Message('Password Reset Request', sender = "mealmindy@proton.me", recipients = [user.email])
 
@@ -376,6 +431,9 @@ def send_reset_email(user):
 
 @app.route('/reset-password', methods=['GET', 'POST'])
 def reset_request():
+    """
+    Allows the user to request a password reset
+    """
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = RequestResetForm()
@@ -388,6 +446,15 @@ def reset_request():
 
 @app.route('/reset-password/<token>', methods=['GET', 'POST'])
 def reset_token(token):
+    """
+    Allows the user to reset their password
+
+    Params:
+        token: The token to reset the password
+
+    Returns:
+        None
+    """
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     user = User.verify_reset_token(token)

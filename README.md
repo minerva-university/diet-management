@@ -1,3 +1,12 @@
+```
+docker build -t diet .
+docker swarm init
+docker stack deploy -c docker-compose.yml diet-swarm
+```
+For turning it off
+```
+docker stack rm cs162-swarm
+```
 # Welcome to CS162 Final Project
 
 This is a Diet Managment web application that produce diet recommendations and weight tracking.
