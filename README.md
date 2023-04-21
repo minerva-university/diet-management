@@ -96,7 +96,11 @@ python3 server.py
 
 ## `Deployment` branch
 
-This branch uses Docker containers to deploy the application.
+This branch uses Docker containers to deploy the application. You have firstly to checkout to the branch using git.
+
+```bash
+git checkout deployment
+```
 
 ### running the application
 
