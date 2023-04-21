@@ -151,7 +151,7 @@ For windows:
 
 ```bash
 python3 -m venv venv_unit
-venv_unit/bin/activate
+venv_unit/scripts/activate
 pip install -r requirements.txt
 pytest unit_test
 ```
