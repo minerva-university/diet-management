@@ -9,8 +9,11 @@ docker stack rm diet-swarm
 docker swarm leave --force
 ```
 Run Tests
-```
-docker-compose run --build test; docker-compose down
+```bash
+docker-compose -f docker-compose-test.yml up --build --abort-on-container-exit test
+docker-compose -f docker-compose-test.yml down
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
 ```
 # Welcome to CS162 Final Project
 
