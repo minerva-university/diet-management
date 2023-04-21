@@ -1,5 +1,6 @@
 FROM python:3.8
 WORKDIR /test
+COPY conftest.py .
 COPY requirements-integration.txt .
 RUN pip install -r requirements-integration.txt
 # Copy the entire integration_test directory into the container

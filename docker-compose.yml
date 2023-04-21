@@ -17,12 +17,12 @@ services:
     networks:
       - webnet
     volumes:
-      - .:/app
+      - ./web:/app
 
   db:
     image: postgres:alpine
     ports:
-    - 5432:5432
+      - 5432:5432
     environment:
       POSTGRES_DB: "cs162"
       POSTGRES_USER: "cs162_user"
@@ -32,6 +32,8 @@ services:
     deploy:
       restart_policy:
         condition: "on-failure"
+    volumes:
+      - db-data:/var/lib/postgresql/data  # Define a named volume for PostgreSQL data
 
   adminer:
     image: adminer
@@ -44,5 +46,9 @@ services:
       - 8080:8080
     networks:
       - webnet
+
 networks:
   webnet:
+
+volumes:
+  db-data:

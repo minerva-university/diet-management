@@ -1,8 +1,7 @@
 import requests
-import time
+from host import host, port
 
 
 def test_basic_request():
-    time.sleep(10)
-    r = requests.get('http://172.17.0.1:5000/')
+    r = requests.get(f'http://{host}:{port}/')
     assert r.status_code == 200
