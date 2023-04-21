@@ -1,7 +1,17 @@
 import pytest
 from sqlalchemy.exc import IntegrityError
 from web import db, app
-from web.models import User, UserWeightOverTime, UserCaloriesOverTime, UserCalories, UserHistory, Meals, MealsPhotos, MealsLabel, UserCurrentDiet, UserCurrentDietMeals, DietCalories
+from web.models.User import User
+from web.models.UserWeightOverTime import UserWeightOverTime
+from web.models.UserCaloriesOverTime import UserCaloriesOverTime
+from web.models.UserCalories import UserCalories
+from web.models.UserHistory import UserHistory
+from web.models.Meals import Meals
+from web.models.MealsPhotos import MealsPhotos
+from web.models.MealsLabel import MealsLabel
+from web.models.UserCurrentDiet import UserCurrentDiet
+from web.models.UserCurrentDietMeals import UserCurrentDietMeals
+from web.models.DietCalories import DietCalories
 
 @pytest.fixture(scope='module')
 def test_app():
