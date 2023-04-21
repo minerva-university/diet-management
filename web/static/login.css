@@ -1,18 +1,5 @@
 
 
-*{
-  background-color: white;
-}
-  /* Create two equal columns that floats next to each other */
-  .column1 {
-    float: left;
-    width: 50%;
-    height:100%;
-    margin: 0;
-    padding: 0;
-    float: left;
-    }
-    
   /* Clear floats after the columns */
   .row:after {
     content: "";
@@ -43,9 +30,11 @@
   width: 100%;
   background-color:orange;
 }
-.responsive{
-  width: 850px;
-  height: 700px;
+.img-login {
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  object-fit: cover;
 }
 
 .logo {

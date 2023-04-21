@@ -4,11 +4,11 @@ body {
 }
 
 .background {
-  width: 1440px;
+  width: 100vw;
   height: 100vh;
   background-image: url("../static/images/landing_page_pic.jpg");
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: cover;
   background-position: center;
   opacity: 0.8;
 }
@@ -18,25 +18,21 @@ body {
 
 .jumbotron {
   background-color: rgba(255, 255, 255, 0.2);
-  margin-left: 400px;
-  margin-right: 330px;
+  text-align: center;
 }
 .container {
   margin-right: 0px;
   margin-left: 0px;
-  max-width: 2000px;
   padding-left: 0px;
   padding-right: 0px;
-}
-.row {
-  max-width: 2000px;
 }
 .lead {
   font-weight: 800;
   color: black;
   justify-items: center;
-  position: center;
-  margin-left: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .display-4 {
   font-weight: 800;
@@ -48,7 +44,6 @@ body {
 .btn-primary {
   background-color: orange;
   border-color: orange;
-  margin-left: 100px;
   margin-right: 20px;
 }
 .btn-primary:hover {
@@ -57,14 +52,17 @@ body {
 
 .card-img-top {
   height: 245px;
+  object-fit: cover;
 }
 .card-body {
   background-color: white;
   height: 200px;
 }
 .card {
-  width: 370px;
-  margin-left: 45px;
+  width: 100%;
+}
+.no-margin {
+  margin: 0px;
 }
 .navbar-brand {
   color: #f26f10 !important;
