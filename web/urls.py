@@ -245,7 +245,6 @@ def show_meals():
         for user_current_meal in user_current_meals:
             meal = Meals.query.filter_by(id=user_current_meal.meal_id).first()
             meal_id=user_current_meal.meal_id
-            print(meal_id)
             label=MealsLabel.query.filter_by(id=meal_id).first()
             meal_type=label.label
             serving_size = user_current_meal.serving_size
@@ -299,16 +298,16 @@ def show_calories(time_frame=None):
     if form.validate_on_submit():
         time_frame = form.time.data
     if time_frame is None:
-        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).order_by(UserCaloriesOverTime.id.desc()).limit(7).all()
         time_frame = '1 Week'
+        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).filter(UserCaloriesOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=7)).all()
     elif time_frame == '1 Week':
-        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).order_by(UserCaloriesOverTime.id.desc()).limit(7).all()
+        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).filter(UserCaloriesOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=7)).all()
     elif time_frame == '2 Weeks':
-        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).order_by(UserCaloriesOverTime.id.desc()).limit(14).all()
+        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).filter(UserCaloriesOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=14)).all()
     elif time_frame == '3 Weeks':
-        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).order_by(UserCaloriesOverTime.id.desc()).limit(21).all()
+        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).filter(UserCaloriesOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=21)).all()
     elif time_frame == '1 Month':
-        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).order_by(UserCaloriesOverTime.id.desc()).limit(30).all()
+        calories = UserCaloriesOverTime.query.filter_by(user_id=current_user.id).filter(UserCaloriesOverTime.created_at >= datetime.datetime.now() - datetime.timedelta(days=30)).all()
 
     labels = []
     values = []
@@ -317,6 +316,9 @@ def show_calories(time_frame=None):
         values.append(cl.calories)
 
     recommended_intake = UserCalories.query.filter_by(user_id=current_user.id).first().calories
+    if len(values) == 0:
+        flash('You have not entered any calories in this period', 'danger')
+        return redirect(url_for('show-calories'))
     averaged = round(sum(values) / len(values))
 
     return render_template('calories_over_time.html', title='Calories Over Time', time_frame=time_frame, labels=labels, values=values, form=form, recommended_intake=recommended_intake, averaged=averaged)
