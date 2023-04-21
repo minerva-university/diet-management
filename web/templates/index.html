@@ -32,7 +32,7 @@
   {% if current_user.is_authenticated %}
   <div class="row">
     <div class="col-md-4">
-      <div class="card">
+      <div class="card" id="calc_calories">
         <img
           class="card-img-top"
           src="{{ url_for('static', filename='images/calories.jpg') }}"
@@ -50,27 +50,9 @@
         </div>
       </div>
     </div>
+
     <div class="col-md-4">
-      <div class="card">
-        <img
-          class="card-img-top"
-          src="{{ url_for('static', filename='images/landing_page_pic.jpg') }}"
-          alt="Get Meals"
-        />
-        <div class="card-body">
-          <h5 class="card-title">Get Meals</h5>
-          <p class="card-text">
-            Meal recommendations based on your caloric needs and dietary
-            preferences.
-          </p>
-          <a href="{{ url_for('get_meals') }}" class="btn btn-primary"
-            >Get Meals</a
-          >
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card">
+      <div class="card" id="show_meals">
         <img
           class="card-img-top"
           src="{{ url_for('static', filename='images/show_meals2.jpg') }}"
