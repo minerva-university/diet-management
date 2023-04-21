@@ -21,10 +21,18 @@ def test_client():
 
 @pytest.fixture
 def test_user():
-    user = User(name='TestUser', email='testuser@example.com', password='testpassword')
+    email = 'testuser@example.com'
+    existing_user = User.query.filter_by(email=email).first()
+    if existing_user:
+        db.session.delete(existing_user)
+        db.session.commit()
+
+    user = User(name='TestUser', email=email, password='testpassword')
     db.session.add(user)
     db.session.commit()
-    return user
+    yield user
+    db.session.delete(user)
+    db.session.commit()
 
 def test_calculate_calories(test_user):
     test_user.gender = 'Male'
