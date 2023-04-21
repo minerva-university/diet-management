@@ -1,7 +1,4 @@
 body {
-  min-width: 100vh;
-  margin: auto;
-  padding-left: 0px;
   background-image: url("../static/images/bg_pic.jpg");
 }
 
@@ -9,9 +6,6 @@ body {
   box-sizing: border-box;
 }
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
 
 /* Float four columns side by side */
 .column {
@@ -44,10 +38,18 @@ body {
   background-color: #f1f1f1;
   min-height: 350px;
 }
+.total-diet-calories {
+  flex-direction: column;
+}
+.buttons {
+  display: flex;
+  align-items: center;
+}
 
 .container {
   max-width: 1440px;
   margin-top: 24px;
+  margin-bottom: 24px;
 }
 h3 {
   font-weight: 600;
