@@ -289,6 +289,12 @@ def show_calories(time_frame=None):
     but also show the dropdown form to allow the user to select a different time range. 
     This has values for 1 week, 2 weeks, 3 weeks, and 1 month
     """
+    
+    # the user doesn't have any meals chosen yet, so redirect them to the get meals page
+    if not UserCalories.query.filter_by(user_id=current_user.id).first():
+        flash('Please choose your meals first', 'danger')
+        return redirect(url_for('show-meals'))
+    
     form = CaloriesTimeFilterForm()
     if form.validate_on_submit():
         time_frame = form.time.data
