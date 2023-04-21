@@ -78,9 +78,11 @@ Start the server by running:
 
 ```bash
 python3 run.py
-if you are on windows:
-for only one time of initializing the db
 ```
+
+if you are on windows:
+
+for only one time of initializing the db
 
 ```bash
 python3 insert_meals.py
@@ -94,7 +96,11 @@ python3 server.py
 
 ## `Deployment` branch
 
-This branch uses Docker containers to deploy the application.
+This branch uses Docker containers to deploy the application. You have firstly to checkout to the branch using git.
+
+```bash
+git checkout deployment
+```
 
 ### running the application
 
