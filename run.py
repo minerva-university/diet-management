@@ -1,7 +1,6 @@
 import subprocess
 from logger import info_logger, error_logger
 
-print("Hey Bro")
 
 # Define the file names for insert_meals.py and server.py
 insert_meals_script = 'insert_meals.py'
