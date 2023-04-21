@@ -20,3 +20,41 @@
 2023-04-21 14:47:37,912 - Diet_Manager_info - INFO - Data Base constructed
 2023-04-21 14:47:41,158 - Diet_Manager_info - INFO - Login Validated
 2023-04-21 14:47:41,172 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:03:02,066 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:03:02,098 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:03:02,552 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:03:02,568 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:04:08,618 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:04:08,643 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:04:27,919 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:04:27,945 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:04:28,077 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:04:28,088 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:19:09,072 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:19:09,098 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:19:09,222 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:19:09,233 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:26:43,901 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:26:43,947 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:26:44,038 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:26:44,058 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:30:11,779 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:30:11,816 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:30:11,921 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:30:11,941 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:30:28,293 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:30:28,319 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:30:28,450 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:30:28,471 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:31:52,048 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:31:52,079 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:31:52,207 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:31:52,227 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:34:39,038 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:34:39,039 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:34:39,072 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:34:39,072 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:36:12,102 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:36:12,102 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:36:12,126 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:36:12,126 - Diet_Manager_info - INFO - Data Base constructed

@@ -1,4 +1,7 @@
-from web.models import Meals, MealsLabel, UserCalories
+#from web.models import Meals, MealsLabel, UserCalories
+from .models.Meals import Meals
+from .models.UserCalories import UserCalories
+from .models.MealsLabel import MealsLabel
 import random  # Import the random module
 from logger import info_logger, error_logger
 
