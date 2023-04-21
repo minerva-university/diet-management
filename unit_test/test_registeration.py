@@ -1,6 +1,7 @@
 import pytest
 from web import app, db, bcrypt
-from web.models import User, UserWeightOverTime
+#from web.models import User, UserWeightOverTime
+from web.models.User import User
 from web.forms import RegistrationForm, LoginForm, CalculateCalories
 from flask_login import login_user, current_user, logout_user
 

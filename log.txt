@@ -58,3 +58,7 @@
 2023-04-21 18:36:12,102 - Diet_Manager_info - INFO - Login Validated
 2023-04-21 18:36:12,126 - Diet_Manager_info - INFO - Data Base constructed
 2023-04-21 18:36:12,126 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:55:37,342 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:55:37,381 - Diet_Manager_info - INFO - Data Base constructed
+2023-04-21 18:55:37,488 - Diet_Manager_info - INFO - Login Validated
+2023-04-21 18:55:37,509 - Diet_Manager_info - INFO - Data Base constructed

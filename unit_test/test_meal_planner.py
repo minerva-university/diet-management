@@ -1,6 +1,11 @@
 import pytest
 from web import app, db
-from web.models import User, Meals, UserCalories, MealsLabel
+#from web.models import User, Meals, UserCalories, MealsLabel
+from web.models.User import User
+from web.models.Meals import Meals
+from web.models.UserCalories import UserCalories
+from web.models.MealsLabel import MealsLabel
+
 from web.meal_planner import choose_meals_for_user
 
 @pytest.fixture
