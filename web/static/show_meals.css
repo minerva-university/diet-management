@@ -1,17 +1,28 @@
 body {
-  background-image: url("../static/images/bg_pic.jpg");
+  min-width: 100vh;
+  margin: auto;
+  padding-left: 0px;
 }
 
 * {
   box-sizing: border-box;
 }
 
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
 
 /* Float four columns side by side */
 .column {
   float: left;
   width: 33%;
   padding: 0 10px;
+}
+
+/* Remove extra left and right margins, due to padding */
+.row {
+  width: 1000px;
+  margin-left: 100px;
 }
 
 /* Clear floats after the columns */
@@ -36,20 +47,24 @@ body {
   padding: 16px;
   text-align: center;
   background-color: #f1f1f1;
-  min-height: 350px;
+  height: 350px;
 }
-.total-diet-calories {
-  flex-direction: column;
-}
-.buttons {
-  display: flex;
-  align-items: center;
+
+.mt-4 {
+  margin-top: 0rem !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  width: 1500px;
+  height: 100vh;
+  background-image: url("../static/images/bg_pic.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  opacity: 1;
 }
 
 .container {
   max-width: 1440px;
-  margin-top: 24px;
-  margin-bottom: 24px;
 }
 h3 {
   font-weight: 600;

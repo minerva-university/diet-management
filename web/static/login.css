@@ -1,3 +1,6 @@
+* {
+  background-color: white;
+}
 /* Create two equal columns that floats next to each other */
 .column1 {
   float: left;
@@ -42,11 +45,9 @@
   background-color: #f26f10 !important;
   border-color: #f26f10 !important;
 }
-.img-login {
-  width: auto;
-  height: 100%;
-  max-width: 100%;
-  object-fit: cover;
+.responsive {
+  width: 950px;
+  height: 700px;
 }
 
 .logo {
@@ -55,11 +56,16 @@
   margin-right: auto;
   width: 50%;
 }
+.mt-4 {
+  margin-top: 0rem !important;
+  margin-left: 4rem !important;
+  margin-right: 0rem !important;
+}
 .ml-2 {
   color: orange;
 }
 .alert {
-  width: 100%;
+  width: 1200px;
   margin-left: 0px !important;
 }
 .alert-info {

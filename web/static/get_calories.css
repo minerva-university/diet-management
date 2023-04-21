@@ -1,13 +1,23 @@
-body {
+.mt-4 {
+  margin-top: 0rem !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  width: 1600px;
+  height: 100vh;
   background-image: url("../static/images/bg_pic.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  opacity: 1;
 }
 
 .container {
   max-width: 1440px;
-  margin-bottom: 24px;
 }
 .card {
-  margin-top: 24px;
+  width: 680px !important;
+  margin-left: 350px;
+  margin-top: 45px;
 }
 .btn-primary {
   background-color: orange;
